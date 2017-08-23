@@ -1,0 +1,2 @@
+mvn -Pprod,no-liquibase package -Dmaven.test.skip=true
+java -server -Xms256m -Xmx256m -XX:NewSize=128m -XX:MaxNewSize=128m -XX:MaxPermSize=128m -jar luckystar-0.0.1-SNAPSHOT.war --spring.profiles.active=prod

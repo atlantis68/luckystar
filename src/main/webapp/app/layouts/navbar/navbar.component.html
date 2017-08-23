@@ -59,7 +59,7 @@
                     </span>
                 </a>
                 <ul  class="dropdown-menu" ngbDropdownMenu>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN']">
                         <a class="dropdown-item" routerLink="labor-union" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.laborUnion">Labor Union</span>
