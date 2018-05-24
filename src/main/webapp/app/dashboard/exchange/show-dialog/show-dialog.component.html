@@ -1,0 +1,23 @@
+<form name="editForm" role="form" novalidate #editForm="ngForm">
+
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label class="form-control-label" >1、自动兑换规则同手动兑换：主播星豆数大于500人民币，每次按照100人民币的整数倍进行兑换</label>
+        </div>  
+        <div class="form-group">
+            <label class="form-control-label" >2、自动兑换频率为一小时，操作完成后，会将当前兑换详细信息通过邮件发送到用户邮箱</label>
+        </div>         
+        <div class="form-group">
+            <label class="form-control-label" >3、此功能不开放前台操作，同意上述规则请联系管理员进行后台开启/停用</label>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" >4、管理员联系方式，QQ号：346411799，微信号：duheng8096</label>
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-check"></span>&nbsp;确定
+        </button>
+    </div>
+</form>

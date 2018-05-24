@@ -1,0 +1,111 @@
+﻿<button onclick="load()">刷新</button>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script
+    src="http://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+<video id="video"></video>
+
+<script>
+
+
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+
+    }
+    function load() {
+        var id = GetQueryString("id");
+        var utils = new Utils();
+        utils.post("/streaming/roomId", {id: id}, function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                if (!xmlhttp.responseText || xmlhttp.responseText == '') {
+                    alert("主播不在线");
+                } else {
+//                if (Hls.isSupported()) {
+//                    var video = document.getElementById('video');
+//                    var hls = new Hls();
+//                    hls.loadSource(xmlhttp.responseText);
+//                    hls.attachMedia(video);
+//                    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+//                        video.play();
+//                    });
+//                }
+//                utils.post("http://service.fanxing.kugou.com/video/fx/live/getstreamaddr/instant/1091687.jsonp?roomId=1091687&pid=207&version=1000&liveType=1&streamType=3&channel=fx&ua=fx-mobile-h5&kugouId=0&jsonpcallback=jsonp_1511538902392_90127", function () {
+//                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//
+//                    }
+//                })
+//                document.write("<script src='http://service.fanxing.kugou.com/video/fx/live/getstreamaddr/instant/1091687.jsonp?roomId=1091687&pid=207&version=1000&liveType=1&streamType=3&channel=fx&ua=fx-mobile-h5&kugouId=0&jsonpcallback=jsonp_1511540519452_75766'/>");
+
+                    $.getJSON("http://service.fanxing.kugou.com/video/fx/live/getstreamaddr/instant/" + xmlhttp.responseText + ".jsonp?roomId=" + xmlhttp.responseText + "&pid=207&version=1000&liveType=1&streamType=3&channel=fx&ua=fx-mobile-h5&kugouId=0&jsonpcallback=?", function (data) {
+
+                        var str = data.data.hls[0];
+                        try {
+                            str.substring(0, str.indexOf("?"));
+                            if (Hls.isSupported()) {
+                                var video = document.getElementById('video');
+                                var hls = new Hls();
+                                hls.loadSource(str.substring(0, str.indexOf("?")));
+                                hls.attachMedia(video);
+                                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                                    video.play();
+                                });
+                            }
+                        } catch (e) {
+                            alert("该主播不在线")
+                        }
+                    })
+                }
+
+            }
+
+//        Utils.post("http://service.fanxing.kugou.com/video/fx/live/getstreamaddr/instant/", {id: id}, function () {
+//
+//        })
+        })
+        var xmlhttp;
+
+        function Utils() {
+
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var utils = new Object();
+            utils.post = function (url, param, callback) {
+                var fd = "?"
+                var first = true;
+                for (var x in param) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        fd += "&";
+                    }
+                    fd += x + "=" + param[x];
+                }
+
+                xmlhttp.onreadystatechange = callback;
+                xmlhttp.open("GET", url + fd, true);
+                xmlhttp.send(fd);
+            }
+            return utils;
+        }
+    }
+    load()
+
+</script>
+<style>
+    button{
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #5cb85c;
+        padding: .25rem .5rem;
+        font-size: .875rem;
+        border-radius: .2rem;
+    }
+</style>

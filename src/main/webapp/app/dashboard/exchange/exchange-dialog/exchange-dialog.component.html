@@ -1,0 +1,27 @@
+<form name="editForm" role="form" novalidate #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserInfoLabel" >兑换</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label class="form-control-label" >星豆余额</label>
+            <div>{{remainingBean}}（合计{{remainingBean/125}}元）</div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" >选择兑换的星豆</label>
+            <div>12500 X <input type="number" [(ngModel)]="exchangeNum" name="exchangeNum" min="0" max="10">  = {{exchangeNum?exchangeNum*100:0}} 元</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || !exchangeNum || exchangeNum<=0 || exchangeNum>= remainingBean/12500" class="btn btn-primary" (click)="exchange()">
+            <span class="fa fa-cny"></span>&nbsp;<span >兑换</span>
+        </button>
+    </div>
+</form>

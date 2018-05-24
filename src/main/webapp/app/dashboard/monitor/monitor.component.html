@@ -1,0 +1,59 @@
+<!--<iframe src="player/live_m3u8.html" width="100%" height="900" seamless-->
+<!--target="_top" title="Swagger UI" class="border-0"></iframe>-->
+    <h2>
+        <h1 style="text-align: center">实时监控</h1>
+    </h2>
+
+    <jhi-alert></jhi-alert>
+    <br>    
+<div class="row">
+    <div class="col-md-1 text-right">
+		<p-checkbox name="allgroups" (click)="selecteAll()"></p-checkbox>
+    </div>	
+    <div class="col-md-1 text-right">
+        <button class="btn btn-success btn-sm" (click)="refresh()">刷新</button>
+    </div>	
+    <div class="col-md-8 text-right">展示列数:</div>
+	<div class="col-md-1 text-right">
+	    <select class="jh-select" [(ngModel)]="cols">
+	    	<option value="2">&nbsp;2列&nbsp;</option>
+	        <option value="3">&nbsp;3列&nbsp;</option>
+	        <option value="4">&nbsp;4列&nbsp;</option>
+	        <option value="6">&nbsp;6列&nbsp;</option>
+	    </select>
+	</div>
+    <div class="col-md-1 text-right">
+        <button class="btn btn-success btn-sm" (click)="newpage()">监控</button>
+    </div>	
+</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td></td>
+            <td><span style="font-weight:bold;">ID</span></td>
+            <td><span style="font-weight:bold;">姓名</span></td>
+            <td><span style="font-weight:bold;">昵称</span></td>
+            <td><span style="font-weight:bold;">繁星号</span></td>
+        </tr>
+        </thead>
+        <tbody>
+        <!--<li *ngFor="let item of items">-->
+        <!--<p-checkbox name="groupname" value="{{item.id}}" [(ngModel)]="selectedValues"></p-checkbox>-->
+        <!--{{item.userName}} {{item.nickName}} {{item.starId}}-->
+        <!--</li>-->
+        <tr *ngFor="let item of items">
+            <td>
+                <p-checkbox name="groupname" value="{{item.id}}" [(ngModel)]="selectedValues"></p-checkbox>
+            </td>
+            <td>{{item.id}}</td>
+            <td>{{item.userName}}</td>
+            <td>{{item.nickName}}</td>
+            <td>{{item.starId}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+

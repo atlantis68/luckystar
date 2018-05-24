@@ -1,0 +1,83 @@
+
+<div *ngIf="userInfo">
+    <h2><span jhiTranslate="luckystarApp.userInfo.detail.title">User Info</span> {{userInfo.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="luckystarApp.userInfo.userName">User Name</span></dt>
+        <dd>
+            <span>{{userInfo.userName}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.nickName">Nick Name</span></dt>
+        <dd>
+            <span>{{userInfo.nickName}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.phoneNumber">Phone Number</span></dt>
+        <dd>
+            <span>{{userInfo.phoneNumber}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.qq">Qq</span></dt>
+        <dd>
+            <span>{{userInfo.qq}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.weiChat">Wei Chat</span></dt>
+        <dd>
+            <span>{{userInfo.weiChat}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.starId">Star Id</span></dt>
+        <dd>
+            <span>{{userInfo.starId}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.regDate">Reg Date</span></dt>
+        <dd>
+            <span>{{userInfo.regDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.loginName">Login Name</span></dt>
+        <dd>
+            <span>{{userInfo.loginName}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.password">Password</span></dt>
+        <dd>
+            <span>{{userInfo.password}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.cookie">Cookie</span></dt>
+        <dd *jhiHasAnyAuthority="['ROLE_ADMIN']">
+            <span>{{userInfo.cookie}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.timeRate">Time Rate</span></dt>
+        <dd *jhiHasAnyAuthority="['ROLE_ADMIN']">
+            <span>{{userInfo.timeRate}}</span>
+        </dd>
+        <dt *jhiHasAnyAuthority="['ROLE_ADMIN']"><span jhiTranslate="luckystarApp.userInfo.beanRate">Bean Rate</span></dt>
+        <dd>
+            <span>{{userInfo.beanRate}}</span>
+        </dd>
+        <!--<dt><span jhiTranslate="luckystarApp.userInfo.lastMaintain">Last Maintain</span></dt>-->
+        <dd>
+            <span>{{userInfo.lastMaintain | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="luckystarApp.userInfo.state">State</span></dt>
+        <dd>
+            <span jhiTranslate="{{'luckystarApp.State.' + userInfo.state}}">{{userInfo.state}}</span>
+        </dd>
+        <!--<dt><span jhiTranslate="luckystarApp.userInfo.laborUnion">Labor Union</span></dt>-->
+        <!--<dd>-->
+            <!--<div *ngIf="userInfo.laborUnion">-->
+                <!--<a [routerLink]="['/labor-union', userInfo.laborUnion?.id]">{{userInfo.laborUnion?.id}}</a>-->
+            <!--</div>-->
+        <!--</dd>-->
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'user-info/'+ userInfo.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
