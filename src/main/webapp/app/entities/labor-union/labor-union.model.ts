@@ -20,6 +20,7 @@ export class LaborUnion implements BaseEntity {
         public userInfos?: BaseEntity[],
         public users?: User[],
         public user?: User,
+        public maxMember?:number
     ) {
     }
 }

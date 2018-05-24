@@ -8,6 +8,7 @@ import com.luckystar.web.repository.LaborUnionRepository;
 import com.luckystar.web.repository.UserRepository;
 import com.luckystar.web.security.SecurityUtils;
 import com.luckystar.web.service.UserService;
+import com.luckystar.web.utils.Tools;
 import com.luckystar.web.web.rest.util.HeaderUtil;
 import com.luckystar.web.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -107,6 +108,7 @@ public class LaborUnionResource {
         if(user.get().getLogin().equals("system")){
             page = laborUnionRepository.findAll(pageable);
         }else {
+            Tools.humpToline(pageable);
             page = laborUnionRepository.findByUserIsCurrentUser(user.get().getId(),pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/labor-unions");

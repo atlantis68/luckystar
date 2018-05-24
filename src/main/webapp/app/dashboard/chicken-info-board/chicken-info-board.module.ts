@@ -7,7 +7,8 @@ import {
     ChickenInfoBoardService,
     ChickenInfoBoardComponent,
     ChickenInfoBoardRoute,
-    ChickenInfoBoardResolvePagingParams
+    ChickenInfoBoardResolvePagingParams,
+    TeHighlightDirective
 } from './';
 
 const ENTITY_STATES = [
@@ -24,7 +25,8 @@ const ENTITY_STATES = [
     ],
     declarations: [
         // ChickenInfoBoardService,
-        ChickenInfoBoardComponent
+        ChickenInfoBoardComponent,
+        TeHighlightDirective
     ],
     entryComponents: [
         // ChickenInfoBoardService,

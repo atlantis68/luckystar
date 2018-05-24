@@ -1,207 +1,230 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
     <div class="modal-header">
-        <h4 class="modal-title" id="myUserInfoLabel" jhiTranslate="luckystarApp.userInfo.home.createOrEditLabel">Create or edit a User Info</h4>
+        <h4 class="modal-title" id="myUserInfoLabel" jhiTranslate="luckystarApp.userInfo.home.createOrEditLabel">Create
+            or edit a User Info</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
+                (click)="clear()">&times;
+        </button>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
         <div class="form-group" [hidden]="!userInfo.id">
             <label for="id" jhiTranslate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="userInfo.id" readonly />
+                   [(ngModel)]="userInfo.id" readonly/>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.userName" for="field_userName">User Name</label>
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.userName" for="field_userName">User
+                Name</label>
             <input type="text" class="form-control" name="userName" id="field_userName"
-                [(ngModel)]="userInfo.userName" required maxlength="10" />
+                   [(ngModel)]="userInfo.userName" required maxlength="10"/>
             <div [hidden]="!(editForm.controls.userName?.dirty && editForm.controls.userName?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.userName?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
+                       [hidden]="!editForm.controls.userName?.errors?.required"
+                       jhiTranslate="entity.validation.required">
+                    This field is required.
                 </small>
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.userName?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 10 }">
-                   This field cannot be longer than 10 characters.
+                       [hidden]="!editForm.controls.userName?.errors?.maxlength"
+                       jhiTranslate="entity.validation.maxlength" translateValues="{ max: 10 }">
+                    This field cannot be longer than 10 characters.
                 </small>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.nickName" for="field_nickName">Nick Name</label>
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.nickName" for="field_nickName">Nick
+                Name</label>
             <input type="text" class="form-control" name="nickName" id="field_nickName"
-                [(ngModel)]="userInfo.nickName" maxlength="50" />
+                   [(ngModel)]="userInfo.nickName" maxlength="50"/>
             <div [hidden]="!(editForm.controls.nickName?.dirty && editForm.controls.nickName?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.nickName?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
+                       [hidden]="!editForm.controls.nickName?.errors?.maxlength"
+                       jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
+                    This field cannot be longer than 50 characters.
                 </small>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.phoneNumber" for="field_phoneNumber">Phone Number</label>
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.phoneNumber" for="field_phoneNumber">Phone
+                Number</label>
             <input type="text" class="form-control" name="phoneNumber" id="field_phoneNumber"
-                [(ngModel)]="userInfo.phoneNumber" maxlength="50" />
+                   [(ngModel)]="userInfo.phoneNumber" maxlength="50"/>
             <div [hidden]="!(editForm.controls.phoneNumber?.dirty && editForm.controls.phoneNumber?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.phoneNumber?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
+                       [hidden]="!editForm.controls.phoneNumber?.errors?.maxlength"
+                       jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
+                    This field cannot be longer than 50 characters.
                 </small>
             </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.qq" for="field_qq">Qq</label>
             <input type="text" class="form-control" name="qq" id="field_qq"
-                [(ngModel)]="userInfo.qq" maxlength="50" />
+                   [(ngModel)]="userInfo.qq" maxlength="50"/>
             <div [hidden]="!(editForm.controls.qq?.dirty && editForm.controls.qq?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.qq?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
+                       [hidden]="!editForm.controls.qq?.errors?.maxlength" jhiTranslate="entity.validation.maxlength"
+                       translateValues="{ max: 50 }">
+                    This field cannot be longer than 50 characters.
                 </small>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.weiChat" for="field_weiChat">Wei Chat</label>
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.weiChat" for="field_weiChat">Wei
+                Chat</label>
             <input type="text" class="form-control" name="weiChat" id="field_weiChat"
-                [(ngModel)]="userInfo.weiChat" maxlength="50" />
+                   [(ngModel)]="userInfo.weiChat" maxlength="50"/>
             <div [hidden]="!(editForm.controls.weiChat?.dirty && editForm.controls.weiChat?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.weiChat?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
+                       [hidden]="!editForm.controls.weiChat?.errors?.maxlength"
+                       jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
+                    This field cannot be longer than 50 characters.
                 </small>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.starId" for="field_starId">Star Id</label>
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.starId" for="field_starId">Star
+                Id</label>
             <input type="text" class="form-control" name="starId" id="field_starId"
-                [(ngModel)]="userInfo.starId" required maxlength="50" />
+                   [(ngModel)]="userInfo.starId" required maxlength="50"/>
             <div [hidden]="!(editForm.controls.starId?.dirty && editForm.controls.starId?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.starId?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
+                       [hidden]="!editForm.controls.starId?.errors?.required" jhiTranslate="entity.validation.required">
+                    This field is required.
                 </small>
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.starId?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
+                       [hidden]="!editForm.controls.starId?.errors?.maxlength"
+                       jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
+                    This field cannot be longer than 50 characters.
                 </small>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.regDate" for="field_regDate">Reg Date</label>
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.regDate" for="field_regDate">Reg
+                Date</label>
             <div class="input-group">
-                <input id="field_regDate" type="text" class="form-control" name="regDate" ngbDatepicker  #regDateDp="ngbDatepicker" [(ngModel)]="userInfo.regDate"
-                required/>
+                <input id="field_regDate" type="text" class="form-control" name="regDate" ngbDatepicker
+                       #regDateDp="ngbDatepicker" [(ngModel)]="userInfo.regDate"
+                       required/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="regDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                    <button type="button" class="btn btn-default" (click)="regDateDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
                 </span>
             </div>
             <div [hidden]="!(editForm.controls.regDate?.dirty && editForm.controls.regDate?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.regDate?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.loginName" for="field_loginName">Login Name</label>
-            <input type="text" class="form-control" name="loginName" id="field_loginName"
-                [(ngModel)]="userInfo.loginName" required maxlength="50" />
-            <div [hidden]="!(editForm.controls.loginName?.dirty && editForm.controls.loginName?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.loginName?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.loginName?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.password" for="field_password">Password</label>
-            <input type="text" class="form-control" name="password" id="field_password"
-                [(ngModel)]="userInfo.password" required maxlength="50" />
-            <div [hidden]="!(editForm.controls.password?.dirty && editForm.controls.password?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.password?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.password?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
-                   This field cannot be longer than 50 characters.
-                </small>
-            </div>
-        </div>
-        <div *jhiHasAnyAuthority="['ROLE_ADMIN']" class="form-group" >
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.cookie" for="field_cookie">Cookie</label>
-            <input type="text" class="form-control" name="cookie" id="field_cookie"
-                [(ngModel)]="userInfo.cookie" maxlength="10480" />
-            <div [hidden]="!(editForm.controls.cookie?.dirty && editForm.controls.cookie?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.cookie?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 10480 }">
-                   This field cannot be longer than 10480 characters.
+                       [hidden]="!editForm.controls.regDate?.errors?.required"
+                       jhiTranslate="entity.validation.required">
+                    This field is required.
                 </small>
             </div>
         </div>
         <div *jhiHasAnyAuthority="['ROLE_ADMIN']" class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.timeRate" for="field_timeRate">Time Rate</label>
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.loginName" for="field_loginName">Login
+                Name</label>
+            <input type="text" class="form-control" name="loginName" id="field_loginName"
+                   [(ngModel)]="userInfo.loginName" maxlength="50" placeholder="填写登录名和密码或者填写Cookie"/>
+            <div [hidden]="!(editForm.controls.loginName?.dirty && editForm.controls.loginName?.invalid)">
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.loginName?.errors?.maxlength"
+                       jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
+                    This field cannot be longer than 50 characters.
+                </small>
+            </div>
+        </div>
+        <div *jhiHasAnyAuthority="['ROLE_ADMIN']" class="form-group">
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.password" for="field_password">Password</label>
+            <input type="text" class="form-control" name="password" id="field_password"
+                   [(ngModel)]="userInfo.password" maxlength="1024" placeholder="填写登录名和密码或者填写Cookie"/>
+            <div [hidden]="!(editForm.controls.password?.dirty && editForm.controls.password?.invalid)">
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.password?.errors?.maxlength"
+                       jhiTranslate="entity.validation.maxlength" translateValues="{ max: 1024 }">
+                    This field cannot be longer than 50 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.cookie"
+                   for="field_cookie">Cookie</label>
+            <input type="text" class="form-control" name="cookie" id="field_cookie"
+                   [(ngModel)]="userInfo.cookie" maxlength="10480" placeholder="填写Cookie后才能采集到主播的详细信息"/>
+            <div [hidden]="!(editForm.controls.cookie?.dirty && editForm.controls.cookie?.invalid)">
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.cookie?.errors?.maxlength"
+                       jhiTranslate="entity.validation.maxlength" translateValues="{ max: 10480 }">
+                    This field cannot be longer than 10480 characters.
+                </small>
+            </div>
+        </div>
+        <div *jhiHasAnyAuthority="['ROLE_ADMIN']" class="form-group">
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.timeRate" for="field_timeRate">Time
+                Rate</label>
             <input type="number" class="form-control" name="timeRate" id="field_timeRate"
-                [(ngModel)]="userInfo.timeRate" required />
+                   [(ngModel)]="userInfo.timeRate" required/>
             <div [hidden]="!(editForm.controls.timeRate?.dirty && editForm.controls.timeRate?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.timeRate?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
+                       [hidden]="!editForm.controls.timeRate?.errors?.required"
+                       jhiTranslate="entity.validation.required">
+                    This field is required.
                 </small>
                 <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.timeRate?.errors?.number" jhiTranslate="entity.validation.number">
+                       [hidden]="!editForm.controls.timeRate?.errors?.number" jhiTranslate="entity.validation.number">
                     This field should be a number.
                 </small>
             </div>
         </div>
         <div *jhiHasAnyAuthority="['ROLE_ADMIN']" class="form-group">
-            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.beanRate" for="field_beanRate">Bean Rate</label>
+            <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.beanRate" for="field_beanRate">Bean
+                Rate</label>
             <input type="number" class="form-control" name="beanRate" id="field_beanRate"
-                [(ngModel)]="userInfo.beanRate" required />
+                   [(ngModel)]="userInfo.beanRate" required/>
             <div [hidden]="!(editForm.controls.beanRate?.dirty && editForm.controls.beanRate?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.beanRate?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
+                       [hidden]="!editForm.controls.beanRate?.errors?.required"
+                       jhiTranslate="entity.validation.required">
+                    This field is required.
                 </small>
                 <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.beanRate?.errors?.number" jhiTranslate="entity.validation.number">
+                       [hidden]="!editForm.controls.beanRate?.errors?.number" jhiTranslate="entity.validation.number">
                     This field should be a number.
                 </small>
             </div>
         </div>
         <!--<div class="form-group">-->
-            <!--<label class="form-control-label" jhiTranslate="luckystarApp.userInfo.lastMaintain" for="field_lastMaintain">Last Maintain</label>-->
-            <!--<div class="input-group">-->
-                <!--<input id="field_lastMaintain" type="text" class="form-control" name="lastMaintain" ngbDatepicker  #lastMaintainDp="ngbDatepicker" [(ngModel)]="userInfo.lastMaintain"-->
-                <!--/>-->
-                <!--<span class="input-group-btn">-->
-                    <!--<button type="button" class="btn btn-default" (click)="lastMaintainDp.toggle()"><i class="fa fa-calendar"></i></button>-->
-                <!--</span>-->
-            <!--</div>-->
+        <!--<label class="form-control-label" jhiTranslate="luckystarApp.userInfo.lastMaintain" for="field_lastMaintain">Last Maintain</label>-->
+        <!--<div class="input-group">-->
+        <!--<input id="field_lastMaintain" type="text" class="form-control" name="lastMaintain" ngbDatepicker  #lastMaintainDp="ngbDatepicker" [(ngModel)]="userInfo.lastMaintain"-->
+        <!--/>-->
+        <!--<span class="input-group-btn">-->
+        <!--<button type="button" class="btn btn-default" (click)="lastMaintainDp.toggle()"><i class="fa fa-calendar"></i></button>-->
+        <!--</span>-->
+        <!--</div>-->
         <!--</div>-->
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="luckystarApp.userInfo.state" for="field_state">State</label>
-            <select class="form-control" name="state" [(ngModel)]="userInfo.state" id="field_state"  required>
+            <select class="form-control" name="state" [(ngModel)]="userInfo.state" id="field_state" required>
                 <option value="OFF" jhiTranslate="luckystarApp.State.OFF">OFF</option>
                 <option value="ON" jhiTranslate="luckystarApp.State.ON">ON</option>
             </select>
             <div [hidden]="!(editForm.controls.state?.dirty && editForm.controls.state?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.state?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
+                       [hidden]="!editForm.controls.state?.errors?.required" jhiTranslate="entity.validation.required">
+                    This field is required.
                 </small>
             </div>
         </div>
 
-        <div  class="form-group">
+        <div class="form-group">
             <label jhiTranslate="luckystarApp.userInfo.laborUnion" for="field_laborUnion">Labor Union</label>
-            <select class="form-control" id="field_laborUnion" name="laborUnion" [(ngModel)]="userInfo.laborUnion" required>
+            <select class="form-control" id="field_laborUnion" name="laborUnion" [(ngModel)]="userInfo.laborUnion"
+                    required>
                 <!--<option [ngValue]="null"></option>-->
-                <option [ngValue]="laborUnionOption.id === userInfo.laborUnion?.id ? userInfo.laborUnion : laborUnionOption" *ngFor="let laborUnionOption of laborunions; trackBy: trackLaborUnionById">{{laborUnionOption.name}}</option>
+                <option
+                    [ngValue]="laborUnionOption.id === userInfo.laborUnion?.id ? userInfo.laborUnion : laborUnionOption"
+                    *ngFor="let laborUnionOption of laborunions; trackBy: trackLaborUnionById">{{laborUnionOption.name}}
+                </option>
             </select>
         </div>
     </div>

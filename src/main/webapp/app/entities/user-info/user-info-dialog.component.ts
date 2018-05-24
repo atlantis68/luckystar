@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Response} from '@angular/http';
 
-import { Observable } from 'rxjs/Rx';
+import {Observable} from 'rxjs/Rx';
 import {NgbActiveModal, NgbDatepickerI18n, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {JhiEventManager, JhiAlertService} from 'ng-jhipster';
 
-import { UserInfo } from './user-info.model';
-import { UserInfoPopupService } from './user-info-popup.service';
-import { UserInfoService } from './user-info.service';
-import { LaborUnion, LaborUnionService } from '../labor-union';
-import { ResponseWrapper } from '../../shared';
+import {UserInfo} from './user-info.model';
+import {UserInfoPopupService} from './user-info-popup.service';
+import {UserInfoService} from './user-info.service';
+import {LaborUnion, LaborUnionService} from '../labor-union';
+import {ResponseWrapper} from '../../shared';
 import {CustomDatepickerI18n, I18n} from "../../shared/datepicker-i18n";
 
 @Component({
@@ -27,19 +27,19 @@ export class UserInfoDialogComponent implements OnInit {
     regDateDp: any;
     lastMaintainDp: any;
 
-    constructor(
-        public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
-        private userInfoService: UserInfoService,
-        private laborUnionService: LaborUnionService,
-        private eventManager: JhiEventManager
-    ) {
+    constructor(public activeModal: NgbActiveModal,
+                private alertService: JhiAlertService,
+                private userInfoService: UserInfoService,
+                private laborUnionService: LaborUnionService,
+                private eventManager: JhiEventManager) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.laborUnionService.query()
-            .subscribe((res: ResponseWrapper) => { this.laborunions = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+            .subscribe((res: ResponseWrapper) => {
+                this.laborunions = res.json;
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -63,7 +63,7 @@ export class UserInfoDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: UserInfo) {
-        this.eventManager.broadcast({ name: 'userInfoListModification', content: 'OK'});
+        this.eventManager.broadcast({name: 'userInfoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -95,20 +95,20 @@ export class UserInfoPopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
-    constructor(
-        private route: ActivatedRoute,
-        private userInfoPopupService: UserInfoPopupService
-    ) {}
+    constructor(private route: ActivatedRoute,
+                private userInfoPopupService: UserInfoPopupService) {
+    }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
-                this.userInfoPopupService
-                    .open(UserInfoDialogComponent as Component, params['id']);
-            } else {
-                this.userInfoPopupService
-                    .open(UserInfoDialogComponent as Component);
-            }
+
+                if (params['id']) {
+                    this.userInfoPopupService
+                        .open(UserInfoDialogComponent as Component, params['id']);
+                } else {
+                    this.userInfoPopupService
+                        .open(UserInfoDialogComponent as Component);
+                }
         });
     }
 

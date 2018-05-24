@@ -8,6 +8,7 @@ import com.luckystar.web.domain.WorkInfo;
 import com.luckystar.web.repository.TaskInfoRepository;
 import com.luckystar.web.repository.UserRepository;
 import com.luckystar.web.security.SecurityUtils;
+import com.luckystar.web.utils.Tools;
 import com.luckystar.web.web.rest.util.HeaderUtil;
 import com.luckystar.web.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -44,6 +45,7 @@ public class TaskInfoResource {
 
     @Autowired
     private UserRepository userRepository;
+
     public TaskInfoResource(TaskInfoRepository taskInfoRepository) {
         this.taskInfoRepository = taskInfoRepository;
     }
@@ -101,11 +103,12 @@ public class TaskInfoResource {
     public ResponseEntity<List<TaskInfo>> getAllTaskInfos(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of TaskInfos");
         Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
-        Page<TaskInfo> page=null;
-        if(user.get().getLogin().equals("system")){
+        Page<TaskInfo> page = null;
+        if (user.get().getLogin().equals("system")) {
             page = taskInfoRepository.findAll(pageable);
-        }else {
-            page = taskInfoRepository.findByUserIsCurrentUser(user.get().getId(),pageable);
+        } else {
+            Tools.humpToline(pageable);
+            page = taskInfoRepository.findByUserIsCurrentUser(user.get().getId(), pageable);
         }
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/task-infos");
@@ -136,6 +139,7 @@ public class TaskInfoResource {
     @Timed
     public ResponseEntity<Void> deleteTaskInfo(@PathVariable Long id) {
         log.debug("REST request to delete TaskInfo : {}", id);
+        taskInfoRepository.deleteWorkInfoById(id);
         taskInfoRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

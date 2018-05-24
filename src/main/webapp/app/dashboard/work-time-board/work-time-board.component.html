@@ -1,6 +1,6 @@
 <div>
     <h2>
-        <h1  style="text-align: center">考勤详情</h1>
+        <h1 style="text-align: center">考勤详情</h1>
     </h2>
 
     <jhi-alert></jhi-alert>
@@ -10,115 +10,132 @@
         <!--<form (ngSubmit)="onSubmit()" >-->
         <!--<div class="row">-->
         <!--<div class="row">-->
-            <!--<div class="col-md-1 jh-form-key">姓名:</div>-->
-            <!--<div class="col-md-3">-->
-                <!--<input type="text" class="form-control"-->
+        <!--<div class="col-md-1 jh-form-key">姓名:</div>-->
+        <!--<div class="col-md-3">-->
+        <!--<input type="text" class="form-control"-->
 
-                       <!--[(ngModel)]="userName"-->
-                <!--&gt;-->
-            <!--</div>-->
+        <!--[(ngModel)]="userName"-->
+        <!--&gt;-->
+        <!--</div>-->
 
-            <!--<div class="col-md-1 jh-form-key">艺名:</div>-->
-            <!--<div class="col-md-3">-->
-                <!--<input type="text" class="form-control"-->
+        <!--<div class="col-md-1 jh-form-key">艺名:</div>-->
+        <!--<div class="col-md-3">-->
+        <!--<input type="text" class="form-control"-->
 
-                       <!--[(ngModel)]="nickName"-->
-                <!--&gt;-->
-            <!--</div>-->
-            <!--<div class="col-md-1 jh-form-key">繁星ID:</div>-->
-            <!--<div class="col-md-3">-->
-                <!--<input type="text" class="form-control"-->
+        <!--[(ngModel)]="nickName"-->
+        <!--&gt;-->
+        <!--</div>-->
+        <!--<div class="col-md-1 jh-form-key">繁星ID:</div>-->
+        <!--<div class="col-md-3">-->
+        <!--<input type="text" class="form-control"-->
 
-                       <!--[(ngModel)]="starId"-->
-                <!--&gt;-->
-            <!--</div>-->
+        <!--[(ngModel)]="starId"-->
+        <!--&gt;-->
+        <!--</div>-->
         <!--</div>-->
         <!--<br>-->
         <!--<div class="row">-->
-            <!--<div class=" col-md-1 jh-form-key">手机:</div>-->
-            <!--<div class="col-md-3">-->
-                <!--<input type="text" class="form-control"-->
+        <!--<div class=" col-md-1 jh-form-key">手机:</div>-->
+        <!--<div class="col-md-3">-->
+        <!--<input type="text" class="form-control"-->
 
-                       <!--[(ngModel)]="phoneNumber"-->
-                <!--&gt;-->
-            <!--</div>-->
+        <!--[(ngModel)]="phoneNumber"-->
+        <!--&gt;-->
+        <!--</div>-->
 
-            <!--<div class="col-md-1 jh-form-key">QQ:</div>-->
-            <!--<div class="col-md-3">-->
-                <!--<input type="text" class="form-control"-->
+        <!--<div class="col-md-1 jh-form-key">QQ:</div>-->
+        <!--<div class="col-md-3">-->
+        <!--<input type="text" class="form-control"-->
 
-                       <!--[(ngModel)]="qq"-->
-                <!--&gt;-->
-            <!--</div>-->
-            <!--<div class="col-md-1 jh-form-key">微信:</div>-->
-            <!--<div class="col-md-3">-->
-                <!--<input type="text" class="form-control"-->
+        <!--[(ngModel)]="qq"-->
+        <!--&gt;-->
+        <!--</div>-->
+        <!--<div class="col-md-1 jh-form-key">微信:</div>-->
+        <!--<div class="col-md-3">-->
+        <!--<input type="text" class="form-control"-->
 
-                       <!--[(ngModel)]="weiChat"-->
-                <!--&gt;-->
-            <!--</div>-->
+        <!--[(ngModel)]="weiChat"-->
+        <!--&gt;-->
+        <!--</div>-->
         <!--</div>-->
         <br>
         <div class="row">
             <div class="col-md-1 jh-form-key">公会:</div>
             <div class="col-md-1">
-                <select  (change)="loadAll()" class="jh-select" [(ngModel)]="labor">
-                    <option *ngFor="let opt of laborUnions" [value]="opt.lId">{{opt.name}}</option>
+                <select (change)="loadAll()" class="jh-select" [(ngModel)]="labor">
+                    <option *ngFor="let opt of laborUnions" [value]="opt.id">{{opt.name}}</option>
                 </select>
             </div>
             <div class="col-md-1 jh-form-key">时间:</div>
             <div class="col-md-2" style="display: flex;">
-                <input id="field_regDate" type="text" class="form-control" name="regDate" ngbDatepicker  #regDateDp="ngbDatepicker" [(ngModel)]="regDate" [minDate]="minDate" [maxDate]="maxDate"
+                <input id="field_regDate" type="text" class="form-control" name="regDate" ngbDatepicker
+                       #regDateDp="ngbDatepicker" [(ngModel)]="regDate" [minDate]="minDate" [maxDate]="maxDate"
                        required/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="regDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                    <button type="button" class="btn btn-default" (click)="regDateDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
                 </span>
             </div>
             <div class="col-md-1">
-                <select  class="jh-select" [(ngModel)]="day" (change)="loadAll()">
+                <select class="jh-select" [(ngModel)]="day" (change)="loadAll()">
                     <option value="0">当天</option>
                     <option value="1">之前1天</option>
+                    <option value="2">之前2天</option>
                     <option value="3">之前3天</option>
+                    <option value="4">之前4天</option>
+                    <option value="5">之前5天</option>
+                    <option value="6">之前6天</option>
                     <option value="7">之前7天</option>
                     <option value="30">当月</option>
                 </select>
             </div>
             <div class="col-md-1 jh-form-key">关键字:</div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <input type="text" class="form-control" placeholder="输入用户名/昵称/繁星号/手机号/QQ号/微信号进行搜索"
                        [(ngModel)]="searchCondition">
             </div>
 
             <div class="col-md-1">
-                <button style="float:right"  class="btn btn-success" (click)="loadAll()">搜索</button>
+                <button style="float:right" class="btn btn-success" (click)="loadAll()">搜索</button>
             </div>
+            <div class="col-md-1">
+                <button style="float:right" class="btn btn-success" (click)="export()">导出</button>            
+            </div>            
         </div>
         <!--</form>-->
         <br/>
-        <div class="table-responsive" *ngIf="data">
-            <table class="table table-striped">
+        <div class="table-responsive" *ngIf="data" class="table-wrapper">
+            <table class="table table-striped" id="consumption-data" class="data">
                 <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                	<th ><span>ID</span></th>
                     <th jhiSortBy="user_name"><span>姓名</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="nick_name"><span>昵称</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="star_id"><span>繁星ID</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="worktime_by_month"><span>月工作时长</span> <span class="fa fa-sort"></span></th>
-                    <th ><span>合格天数</span> <span ></span></th>
-                    <th *ngFor="let day of uniqueDate" >
-                        {{day| date:'mediumDate'}}
+                    <th jhiSortBy="judegetime_by_month"><span>合格天数</span> <span class="fa fa-sort"></span></th>
+                    <th *ngFor="let day of uniqueDate" jhiSortBy="{{day}}">
+                        <span>{{day| date:'mediumDate'}}</span> <span class="fa fa-sort"></span>
+
                     </th>
+                    <th jhiSortBy="total"><span>总计</span> <span class="fa fa-sort"></span></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let row of data ;trackBy: trackId">
+                <tr *ngFor="let row of data;trackBy: trackId;let i = index">
+                	<td>{{i + 1}}</td>
                     <td>{{row.data.userName}}</td>
                     <td>{{row.data.nickName}}</td>
                     <td>{{row.data.starId}}</td>
                     <td>{{row.data.workTimeByMonth|timeFormat}}</td>
                     <td>{{row.data.judgeTimeByMonth}}</td>
                     <!--<td>{{row.data.totalTime}}</td>-->
-                    <td *ngFor="let day of uniqueDate" myHighlight [highlightColor]="row.date[day]"  >
+                    <td *ngFor="let day of uniqueDate" myHighlight [highlightColor]="row.date[day]?row.date[day]:0"
+                        [boundary]="row.data.boundaryValue">
                         {{(row.date[day]?row.date[day]:0) |timeFormat}}
+                    </td>
+                    <td>
+                        {{row.total|timeFormat}}
                     </td>
                 </tr>
                 </tbody>
@@ -126,13 +143,13 @@
         </div>
         <!-- Pager is not implemented yet, so this is normal pagination instead -->
         <!--<div *ngIf="data && data.length">-->
-            <!--<div class="row justify-content-center">-->
-                <!--<jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>-->
-            <!--</div>-->
-            <!--<div class="row justify-content-center">-->
-                <!--<ngb-pagination [collectionSize]="totalItems" [(page)]="page"-->
-                                <!--(pageChange)="loadPage(page)"></ngb-pagination>-->
-            <!--</div>-->
+        <!--<div class="row justify-content-center">-->
+        <!--<jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>-->
+        <!--</div>-->
+        <!--<div class="row justify-content-center">-->
+        <!--<ngb-pagination [collectionSize]="totalItems" [(page)]="page"-->
+        <!--(pageChange)="loadPage(page)"></ngb-pagination>-->
+        <!--</div>-->
         <!--</div>-->
     </div>
 </div>
@@ -143,10 +160,113 @@
         line-height: 34px;
         padding-right: 0px;
     }
-    .jh-select{
+
+    .jh-select {
         height: 38px;
         vertical-align: middle
     }
+
+    .table-wrapper {
+        /*overflow-x: scroll;*/
+        overflow-y: scroll;
+        /*width: 800px;*/
+        margin-left: 750px;
+
+    }
+
+    .table-wrapper table {
+        /*margin-left: 100px;*/
+    }
+
+    td, th {
+        white-space: nowrap;
+        width: 200px;
+    }
+
+    td:first-child {
+        position: absolute;
+        left: 0px;
+        width: 50px;
+        overflow: hidden;
+    }
+
+    th:first-child {
+        position: absolute;
+        left: 0px;
+        width: 50px;
+        overflow: hidden;
+    }
+
+    td:nth-child(2) {
+        position: absolute;
+        left: 50px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    th:nth-child(2) {
+        position: absolute;
+        left: 50px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    td:nth-child(3) {
+        position: absolute;
+        left: 200px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    th:nth-child(3) {
+        position: absolute;
+        left: 200px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    td:nth-child(4) {
+        position: absolute;
+        left: 350px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    th:nth-child(4) {
+        position: absolute;
+        left: 350px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    td:nth-child(5) {
+        position: absolute;
+        left: 500px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    th:nth-child(5) {
+        position: absolute;
+        left: 500px;
+        width: 150px;
+        overflow: hidden;
+    }
+    
+    td:nth-child(6) {
+        position: absolute;
+        left: 650px;
+        width: 100px;
+        overflow: hidden;
+    }
+
+    th:nth-child(6) {
+        position: absolute;
+        left: 650px;
+        width: 100px;
+        overflow: hidden;
+    }
+
 </style>
 
 <!--<p myHighlight highlightColor="yellow">Highlighted in yellow</p>-->

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response,ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { JhiDateUtils } from 'ng-jhipster';
 
@@ -18,6 +18,18 @@ export class ChickenInfoBoardService {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
+    }
+
+    export(req?: any): Observable<any> {
+        const options = createRequestOption(req);
+        options.responseType= ResponseContentType.Blob;
+       return this.http.get('api/chicken-infos-excel', options)
+            .map(res => {
+                return {
+                    filename: '业绩排行.xls',
+                    data: res.blob()
+                };
+            });
     }
 
     recentTime():Observable<ResponseWrapper>{

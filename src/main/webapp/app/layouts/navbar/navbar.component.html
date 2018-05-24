@@ -10,7 +10,7 @@
     </div>
 
 
-            <p style="    text-align: end;position: absolute;width: 50%;color: white" >业务咨询&技术支持联系QQ：346411799、397121361</p>
+            <p style="    text-align: end;position: absolute;width: 50%;color: white" >业务咨询&技术支持联系QQ号：346411799，微信号：duheng8096</p>
 
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
@@ -33,16 +33,28 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU_KPI']">
                         <a class="dropdown-item" routerLink="user-info-board" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.dashboard.kpi">KPI</span>
                         </a>
                     </li>
-                    <li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU_ATTENDANCE']">
                         <a class="dropdown-item" routerLink="work-time-board" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.dashboard.attendance">Attendance</span>
+                        </a>
+                    </li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU_EXCHANGE']">
+                        <a class="dropdown-item" routerLink="exchange" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.dashboard.exchange">Exchange</span>
+                        </a>
+                    </li>
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU_MONITOR']">
+                        <a class="dropdown-item" routerLink="monitor" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.dashboard.monitor">Monitor</span>
                         </a>
                     </li>
                 </ul>
@@ -59,19 +71,19 @@
                     </span>
                 </a>
                 <ul  class="dropdown-menu" ngbDropdownMenu>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN']">
                         <a class="dropdown-item" routerLink="labor-union" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.laborUnion">Labor Union</span>
                         </a>
                     </li>
-                    <li  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                    <li  *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU_USER']">
                         <a class="dropdown-item" routerLink="user-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.userInfo">User Info</span>
                         </a>
                     </li>
-                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU_TASK']">
                         <a class="dropdown-item" routerLink="task-info" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.taskInfo">Task Info</span>
@@ -169,12 +181,12 @@
                   </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
-                    <li *ngSwitchCase="true">
+<!--                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.account.settings">Settings</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="password" routerLinkActive="active" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-clock-o" aria-hidden="true"></i>

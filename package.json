@@ -8,6 +8,7 @@
     "node_modules"
   ],
   "dependencies": {
+    "@angular/animations": "4.2.6",
     "@angular/common": "4.2.6",
     "@angular/compiler": "4.2.6",
     "@angular/core": "4.2.6",
@@ -16,8 +17,9 @@
     "@angular/platform-browser": "4.2.6",
     "@angular/platform-browser-dynamic": "4.2.6",
     "@angular/router": "4.2.6",
-    "@ng-bootstrap/ng-bootstrap": "1.0.0-alpha.28",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.6",
     "bootstrap": "4.0.0-alpha.6",
+    "bootstrap-table": "^1.11.2",
     "core-js": "2.4.1",
     "font-awesome": "4.7.0",
     "jquery": "3.2.1",
@@ -25,6 +27,7 @@
     "ng2-webstorage": "1.8.0",
     "ngx-cookie": "1.0.0",
     "ngx-infinite-scroll": "0.5.1",
+    "primeng": "4.3.0",
     "reflect-metadata": "0.1.10",
     "rxjs": "5.4.2",
     "swagger-ui": "2.2.10",

@@ -5,9 +5,12 @@ import com.luckystar.web.domain.LaborUnion;
 import com.luckystar.web.domain.User;
 import com.luckystar.web.domain.UserInfo;
 
+import com.luckystar.web.repository.LaborUnionRepository;
 import com.luckystar.web.repository.UserInfoRepository;
 import com.luckystar.web.repository.UserRepository;
 import com.luckystar.web.security.SecurityUtils;
+import com.luckystar.web.utils.RSA;
+import com.luckystar.web.utils.Tools;
 import com.luckystar.web.web.rest.util.HeaderUtil;
 import com.luckystar.web.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -25,9 +28,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * REST controller for managing UserInfo.
@@ -43,7 +47,11 @@ public class UserInfoResource {
     private final UserInfoRepository userInfoRepository;
 
     @Autowired
+    private LaborUnionRepository laborUnionRepository;
+
+    @Autowired
     private UserRepository userRepository;
+
     public UserInfoResource(UserInfoRepository userInfoRepository) {
         this.userInfoRepository = userInfoRepository;
     }
@@ -57,17 +65,25 @@ public class UserInfoResource {
      */
     @PostMapping("/user-infos")
     @Timed
-    public ResponseEntity<UserInfo> createUserInfo(@Valid @RequestBody UserInfo userInfo) throws URISyntaxException {
+    public ResponseEntity createUserInfo(@Valid @RequestBody UserInfo userInfo) throws URISyntaxException {
         log.debug("REST request to save UserInfo : {}", userInfo);
+        LaborUnion laborUnion = laborUnionRepository.findLaborUnionById(userInfo.getLaborUnion().getId());
+        Long total = userInfoRepository.countByLaborUnionId(userInfo.getLaborUnion().getId());
+        if(total.compareTo(laborUnion.getMaxMember())>=0){
+            return  ResponseEntity.badRequest().body(null);
+        }
         if (userInfo.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new userInfo cannot already have an ID")).body(null);
         }
         userInfo.setBeanRate(1f);
         userInfo.setTimeRate(1f);
+        userInfo.setPassword("*加密*"+RSA.encryptByPublic(userInfo.getPassword()));
+        userInfo.setLastMaintain(LocalDate.now());
         UserInfo result = userInfoRepository.save(userInfo);
         return ResponseEntity.created(new URI("/api/user-infos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
+
     }
 
     /**
@@ -86,6 +102,10 @@ public class UserInfoResource {
         if (userInfo.getId() == null) {
             return createUserInfo(userInfo);
         }
+        if (!userInfo.getPassword().startsWith("*加密*")) {
+            userInfo.setPassword("*加密*" + RSA.encryptByPublic(userInfo.getPassword()));
+        }
+        userInfo.setLastMaintain(LocalDate.now());
         UserInfo result = userInfoRepository.save(userInfo);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, userInfo.getId().toString()))
@@ -104,11 +124,12 @@ public class UserInfoResource {
         log.debug("REST request to get a page of UserInfos");
 
         Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
-        Page<UserInfo> page=null;
-        if(user.get().getLogin().equals("system")){
+        Page<UserInfo> page = null;
+        if (user.get().getLogin().equals("system")) {
             page = userInfoRepository.findAll(pageable);
-        }else {
-            page = userInfoRepository.findByUserIsCurrentUser(user.get().getId(),pageable);
+        } else {
+            Tools.humpToline(pageable);
+            page = userInfoRepository.findByUserIsCurrentUser(user.get().getId(), pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/user-infos");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -138,6 +159,8 @@ public class UserInfoResource {
     @Timed
     public ResponseEntity<Void> deleteUserInfo(@PathVariable Long id) {
         log.debug("REST request to delete UserInfo : {}", id);
+        userInfoRepository.deleteWorkInfoById(id);
+        userInfoRepository.deleteTaskInfoById(id);
         userInfoRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

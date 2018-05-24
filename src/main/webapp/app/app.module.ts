@@ -13,7 +13,7 @@ import { LuckystarDashboardModule } from './dashboard/dashboard.module';
 
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
 import {
@@ -32,6 +32,7 @@ import {
         BrowserModule,
         LayoutRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        NgbModule.forRoot(),
         LuckystarSharedModule,
         LuckystarHomeModule,
         LuckystarAdminModule,

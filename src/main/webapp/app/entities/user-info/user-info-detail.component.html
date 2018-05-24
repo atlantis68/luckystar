@@ -32,29 +32,29 @@
         <dd>
             <span>{{userInfo.regDate | date:'mediumDate'}}</span>
         </dd>
-        <dt><span jhiTranslate="luckystarApp.userInfo.loginName">Login Name</span></dt>
-        <dd>
+        <dt *jhiHasAnyAuthority="['ROLE_ADMIN']">
+        	<span jhiTranslate="luckystarApp.userInfo.loginName">Login Name</span></dt>
+        <dd *jhiHasAnyAuthority="['ROLE_ADMIN']">
             <span>{{userInfo.loginName}}</span>
         </dd>
-        <dt><span jhiTranslate="luckystarApp.userInfo.password">Password</span></dt>
-        <dd>
+        <dt *jhiHasAnyAuthority="['ROLE_ADMIN']">
+        	<span jhiTranslate="luckystarApp.userInfo.password">Password</span></dt>
+        <dd *jhiHasAnyAuthority="['ROLE_ADMIN']">
             <span>{{userInfo.password}}</span>
         </dd>
         <dt><span jhiTranslate="luckystarApp.userInfo.cookie">Cookie</span></dt>
-        <dd *jhiHasAnyAuthority="['ROLE_ADMIN']">
+        <dd>
             <span>{{userInfo.cookie}}</span>
         </dd>
-        <dt><span jhiTranslate="luckystarApp.userInfo.timeRate">Time Rate</span></dt>
+        <dt *jhiHasAnyAuthority="['ROLE_ADMIN']">
+        	<span jhiTranslate="luckystarApp.userInfo.timeRate">Time Rate</span></dt>
         <dd *jhiHasAnyAuthority="['ROLE_ADMIN']">
             <span>{{userInfo.timeRate}}</span>
         </dd>
-        <dt *jhiHasAnyAuthority="['ROLE_ADMIN']"><span jhiTranslate="luckystarApp.userInfo.beanRate">Bean Rate</span></dt>
-        <dd>
+        <dt *jhiHasAnyAuthority="['ROLE_ADMIN']">
+        	<span jhiTranslate="luckystarApp.userInfo.beanRate">Bean Rate</span></dt>
+        <dd *jhiHasAnyAuthority="['ROLE_ADMIN']">
             <span>{{userInfo.beanRate}}</span>
-        </dd>
-        <!--<dt><span jhiTranslate="luckystarApp.userInfo.lastMaintain">Last Maintain</span></dt>-->
-        <dd>
-            <span>{{userInfo.lastMaintain | date:'mediumDate'}}</span>
         </dd>
         <dt><span jhiTranslate="luckystarApp.userInfo.state">State</span></dt>
         <dd>

@@ -7,7 +7,7 @@ export class HighlightDirective implements OnInit, OnDestroy  {
     ngOnInit(): void {
         if(this.highlightColor==0){
             this.highlight("red");
-        }else if (this.highlightColor<60*60*4){
+        }else if (this.highlightColor<this.boundary*60){
             this.highlight("yellow");
         }
     }
@@ -20,7 +20,7 @@ export class HighlightDirective implements OnInit, OnDestroy  {
     }
 
     @Input() highlightColor: any;
-
+    @Input() boundary: any;
 
     private highlight(color: string) {
         this.el.nativeElement.style.backgroundColor = color;

@@ -51,6 +51,16 @@ public class UserInfo implements Serializable {
     @Column(name = "phone_number", length = 50)
     private String phoneNumber;
 
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
+
+    @Column(name = "room_id")
+    private Long roomId;
     /**
      * 手机号
      */
@@ -87,19 +97,17 @@ public class UserInfo implements Serializable {
     /**
      * 繁星登录名
      */
-    @NotNull
     @Size(max = 50)
-    @ApiModelProperty(value = "繁星登录名", required = true)
-    @Column(name = "login_name", length = 50, nullable = false)
+    @ApiModelProperty(value = "繁星登录名")
+    @Column(name = "login_name", length = 50)
     private String loginName;
 
     /**
      * 繁星登录密码
      */
-    @NotNull
     @Size(max = 500)
-    @ApiModelProperty(value = "繁星登录密码", required = true)
-    @Column(name = "jhi_password", length = 500, nullable = false)
+    @ApiModelProperty(value = "繁星登录密码")
+    @Column(name = "jhi_password", length = 1024)
     private String password;
 
     /**

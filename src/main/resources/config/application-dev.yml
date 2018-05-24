@@ -26,9 +26,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://192.168.8.207:13306/luckystar2?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: wumart
-        password: '!QAZxsw2'
+        url: jdbc:mysql://rm-uf6w964822227998co.mysql.rds.aliyuncs.com:3306/luckystar?useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: root
+        password: 'Atlantis68'
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -43,7 +43,7 @@ spring:
             hibernate.id.new_generator_mappings: true
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
-            hibernate.generate_statistics: true
+            hibernate.generate_statistics: false
     mail:
         host: localhost
         port: 25
@@ -132,5 +132,8 @@ jhipster:
 # More documentation is available at:
 # https://jhipster.github.io/common-application-properties/
 # ===================================================================
+logging:
+  file: /web/logs/web.log
+  level: info
 
 application:

@@ -8,6 +8,7 @@ import com.luckystar.web.domain.WorkInfo;
 import com.luckystar.web.repository.UserRepository;
 import com.luckystar.web.repository.WorkInfoRepository;
 import com.luckystar.web.security.SecurityUtils;
+import com.luckystar.web.utils.Tools;
 import com.luckystar.web.web.rest.util.HeaderUtil;
 import com.luckystar.web.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -105,6 +106,7 @@ public class WorkInfoResource {
         if(user.get().getLogin().equals("system")){
             page = workInfoRepository.findAll(pageable);
         }else {
+            Tools.humpToline(pageable);
             page = workInfoRepository.findByUserIsCurrentUser(user.get().getId(),pageable);
         }
 

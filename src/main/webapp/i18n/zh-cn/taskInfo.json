@@ -15,11 +15,12 @@
             "detail": {
                 "title": "任务信息"
             },
-            "minTask": "任务数",
-            "maxTask": "目标数",
+            "boundaryValue": "应工作时长（分钟）",
+            "minTask": "任务数（星豆）",
+            "maxTask": "目标数（星豆）",
             "curMonth": "月份",
             "workInfo": "Work Info",
-            "userInfo": "成员"
+            "userInfo": "昵称/姓名"
         }
     }
 }

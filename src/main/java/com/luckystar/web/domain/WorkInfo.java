@@ -140,6 +140,17 @@ public class WorkInfo implements Serializable {
     @Column(name = "last_time", nullable = false)
     private ZonedDateTime lastTime;
 
+    public Integer getOnlineStatus() {
+        return onlineStatus;
+    }
+
+    public void setOnlineStatus(Integer onlineStatus) {
+        this.onlineStatus = onlineStatus;
+    }
+
+    @Column(name = "online_status", nullable = false)
+    private Integer onlineStatus;
+
     @ManyToOne
     private TaskInfo taskInfo;
 

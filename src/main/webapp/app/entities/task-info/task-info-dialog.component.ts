@@ -34,7 +34,9 @@ export class TaskInfoDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.userInfoService.query()
+        this.userInfoService.query({
+            page: 0,
+            size: 300})
             .subscribe((res: ResponseWrapper) => { this.userinfos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 

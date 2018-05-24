@@ -6,9 +6,11 @@
             "home": "首页",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "dashboard":{
-                "main": "展版",
+                "main": "功能",
                 "kpi":"业绩",
-                "attendance":"考勤"
+                "attendance":"考勤",
+                "exchange":"兑换",
+                "monitor":"监控"
             },
             "entities": {
                 "main": "数据",

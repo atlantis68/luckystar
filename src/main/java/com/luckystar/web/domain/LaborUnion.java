@@ -62,6 +62,12 @@ public class LaborUnion implements Serializable {
     @Column(name = "state", nullable = false)
     private State state;
 
+    @Column(name = "max_member")
+    private Long maxMember;
+    
+    @Column(name = "auto_exchange")
+    private boolean autoExchange;
+
     /**
      * 数据采集来源 0：繁星
      */
@@ -251,4 +257,21 @@ public class LaborUnion implements Serializable {
             ", type='" + getType() + "'" +
             "}";
     }
+
+    public Long getMaxMember() {
+        return maxMember;
+    }
+
+    public void setMaxMember(Long maxMember) {
+        this.maxMember = maxMember;
+    }
+
+	public boolean isAutoExchange() {
+		return autoExchange;
+	}
+
+	public void setAutoExchange(boolean autoExchange) {
+		this.autoExchange = autoExchange;
+	}
+
 }

@@ -47,6 +47,9 @@ public class TaskInfo implements Serializable {
     @Column(name = "cur_month", nullable = false)
     private Integer curMonth;
 
+    @Column(name = "boundary_value")
+    private Integer boundaryValue;
+
     @OneToMany(mappedBy = "taskInfo")
     @JsonIgnore
     private Set<WorkInfo> workInfos = new HashSet<>();
@@ -99,6 +102,19 @@ public class TaskInfo implements Serializable {
 
     public void setCurMonth(Integer curMonth) {
         this.curMonth = curMonth;
+    }
+
+    public Integer getBoundaryValue() {
+        return boundaryValue;
+    }
+
+    public TaskInfo boundaryValue(Integer boundaryValue) {
+        this.boundaryValue = boundaryValue;
+        return this;
+    }
+
+    public void setBoundaryValue(Integer boundaryValue) {
+        this.boundaryValue = boundaryValue;
     }
 
     public Set<WorkInfo> getWorkInfos() {
@@ -166,6 +182,7 @@ public class TaskInfo implements Serializable {
             ", minTask='" + getMinTask() + "'" +
             ", maxTask='" + getMaxTask() + "'" +
             ", curMonth='" + getCurMonth() + "'" +
+            ", boundaryValue='" + getBoundaryValue() + "'" +
             "}";
     }
 }

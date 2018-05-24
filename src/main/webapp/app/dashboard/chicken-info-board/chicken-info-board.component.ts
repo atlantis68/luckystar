@@ -7,7 +7,7 @@ import {LaborUnionBoard} from './chicken-info-board.model';
 import {ChickenInfoBoardService} from './chicken-info-board.service';
 import {ITEMS_PER_PAGE, Principal, ResponseWrapper} from '../../shared';
 import {PaginationConfig} from '../../blocks/config/uib-pagination.config';
-import { LaborUnionService } from '../../entities/labor-union/labor-union.service';
+import {LaborUnionService} from '../../entities/labor-union/labor-union.service';
 import {NgbDatepickerI18n} from "@ng-bootstrap/ng-bootstrap";
 import {CustomDatepickerI18n, I18n} from "../../shared/datepicker-i18n";
 
@@ -34,13 +34,14 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     reverse: any;
     recentTime: any;
     day: any;
-    labor:any;
+    labor: any;
     searchCondition: string;
-    laborUnions:any;
-    minDate:any;
-    maxDate:any;
+    laborUnions: any;
+    minDate: any;
+    maxDate: any;
+
     constructor(private chickenInfoBoardService: ChickenInfoBoardService,
-                private laborUnionService:LaborUnionService,
+                private laborUnionService: LaborUnionService,
                 private parseLinks: JhiParseLinks,
                 private alertService: JhiAlertService,
                 private principal: Principal,
@@ -61,8 +62,8 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     loadAll() {
         this.chickenInfoBoardService.query({
             query: {
-                day: this.day.year+"-"+this.day.month+"-"+this.day.day,
-                laborUnionId:this.labor,
+                day: this.day.year + "-" + this.day.month + "-" + this.day.day,
+                laborUnionId: this.labor,
                 searchCondition: this.searchCondition
             },
             page: this.page - 1,
@@ -103,15 +104,15 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         var date = new Date();
-        this.day={
-            year:date.getFullYear(),
-            month:date.getMonth()+1,
-            day:date.getDate()
+        this.day = {
+            year: date.getFullYear(),
+            month: date.getMonth() + 1,
+            day: date.getDate()
         }
-        this.maxDate=Object.create(this.day);
-        const minDate =Object.create(this.day);
-        minDate.month-=3;
-        this.minDate=minDate;
+        this.maxDate = Object.create(this.day);
+        const minDate = Object.create(this.day);
+        minDate.month -= 3;
+        this.minDate = minDate;
         this.chickenInfoBoardService.recentTime().subscribe(
             (res: ResponseWrapper) => this.onSuccess1(res, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
@@ -121,11 +122,11 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess1(data, headers) {
-        var data  = data.json();
+        var data = data.json();
         this.recentTime = data.date;
         this.laborUnions = data.laborUnions;
 
-        this.labor = this.laborUnions[0].lId;
+        this.labor = this.laborUnions[0].id;
         this.loadAll();
 
     }
@@ -151,8 +152,8 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data, headers) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = headers.get('X-Total-Count');
+        // this.links = this.parseLinks.parse(headers.get('link'));
+        // this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         // this.page = pagingParams.page;
         this.laborUnionBoards = data;
@@ -170,6 +171,50 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     statementLabor(labor?: string): void {
         this.labor = labor;
         this.loadAll();
+    }
+
+    getSumBeanByDay() {
+        let sum: number = 0;
+        for (let item of this.laborUnionBoards) {
+            sum+=item.beanByDay;
+        }
+        return sum;
+    }
+
+    getSumBeanByMonth() {
+        let sum: number = 0;
+        for (let item of this.laborUnionBoards) {
+            sum+=item.beanByMonth;
+        }
+        return sum;
+    }
+
+    export() {
+        this.chickenInfoBoardService.export({
+            query: {
+                day: this.day.year + "-" + this.day.month + "-" + this.day.day,
+                laborUnionId: this.labor,
+                searchCondition: this.searchCondition
+            },
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        }).subscribe(res => {
+            console.log('start download:',res);
+            var url = window.URL.createObjectURL(res.data);
+            var a = document.createElement('a');
+            document.body.appendChild(a);
+            a.setAttribute('style', 'display: none');
+            a.href = url;
+            a.download = res.filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove(); // remove the element
+        }, error => {
+            console.log('download error:', JSON.stringify(error));
+        }, () => {
+            console.log('Completed file download.')
+        })
     }
 
 }

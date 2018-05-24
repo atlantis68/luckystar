@@ -7,6 +7,7 @@ import { UserInfo } from './user-info.model';
 import { UserInfoService } from './user-info.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import {LaborUnionService} from "../labor-union/labor-union.service";
 
 @Component({
     selector: 'jhi-user-info',
@@ -28,7 +29,7 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
-
+    maxMember: number;
     constructor(
         private userInfoService: UserInfoService,
         private parseLinks: JhiParseLinks,
@@ -38,7 +39,8 @@ currentAccount: any;
         private router: Router,
         private eventManager: JhiEventManager,
         private paginationUtil: JhiPaginationUtil,
-        private paginationConfig: PaginationConfig
+        private paginationConfig: PaginationConfig,
+    private laborUnionService: LaborUnionService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
@@ -57,6 +59,15 @@ currentAccount: any;
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
         );
+
+        this.laborUnionService.query()
+            .subscribe((res: ResponseWrapper) => {
+                let total: number = 0;
+                for (let item of res.json) {
+                    total += item.maxMember;
+                }
+                this.maxMember = total;
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
     loadPage(page: number) {
         if (page !== this.previousPage) {

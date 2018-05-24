@@ -46,6 +46,9 @@ public class TaskInfoResourceIntTest {
     private static final Integer DEFAULT_CUR_MONTH = 1;
     private static final Integer UPDATED_CUR_MONTH = 2;
 
+    private static final Integer DEFAULT_BOUNDARY_VALUE = 1;
+    private static final Integer UPDATED_BOUNDARY_VALUE = 2;
+
     @Autowired
     private TaskInfoRepository taskInfoRepository;
 
@@ -85,7 +88,8 @@ public class TaskInfoResourceIntTest {
         TaskInfo taskInfo = new TaskInfo()
             .minTask(DEFAULT_MIN_TASK)
             .maxTask(DEFAULT_MAX_TASK)
-            .curMonth(DEFAULT_CUR_MONTH);
+            .curMonth(DEFAULT_CUR_MONTH)
+            .boundaryValue(DEFAULT_BOUNDARY_VALUE);
         return taskInfo;
     }
 
@@ -112,6 +116,7 @@ public class TaskInfoResourceIntTest {
         assertThat(testTaskInfo.getMinTask()).isEqualTo(DEFAULT_MIN_TASK);
         assertThat(testTaskInfo.getMaxTask()).isEqualTo(DEFAULT_MAX_TASK);
         assertThat(testTaskInfo.getCurMonth()).isEqualTo(DEFAULT_CUR_MONTH);
+        assertThat(testTaskInfo.getBoundaryValue()).isEqualTo(DEFAULT_BOUNDARY_VALUE);
     }
 
     @Test
@@ -200,7 +205,8 @@ public class TaskInfoResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(taskInfo.getId().intValue())))
             .andExpect(jsonPath("$.[*].minTask").value(hasItem(DEFAULT_MIN_TASK)))
             .andExpect(jsonPath("$.[*].maxTask").value(hasItem(DEFAULT_MAX_TASK)))
-            .andExpect(jsonPath("$.[*].curMonth").value(hasItem(DEFAULT_CUR_MONTH)));
+            .andExpect(jsonPath("$.[*].curMonth").value(hasItem(DEFAULT_CUR_MONTH)))
+            .andExpect(jsonPath("$.[*].boundaryValue").value(hasItem(DEFAULT_BOUNDARY_VALUE)));
     }
 
     @Test
@@ -216,7 +222,8 @@ public class TaskInfoResourceIntTest {
             .andExpect(jsonPath("$.id").value(taskInfo.getId().intValue()))
             .andExpect(jsonPath("$.minTask").value(DEFAULT_MIN_TASK))
             .andExpect(jsonPath("$.maxTask").value(DEFAULT_MAX_TASK))
-            .andExpect(jsonPath("$.curMonth").value(DEFAULT_CUR_MONTH));
+            .andExpect(jsonPath("$.curMonth").value(DEFAULT_CUR_MONTH))
+            .andExpect(jsonPath("$.boundaryValue").value(DEFAULT_BOUNDARY_VALUE));
     }
 
     @Test
@@ -239,7 +246,8 @@ public class TaskInfoResourceIntTest {
         updatedTaskInfo
             .minTask(UPDATED_MIN_TASK)
             .maxTask(UPDATED_MAX_TASK)
-            .curMonth(UPDATED_CUR_MONTH);
+            .curMonth(UPDATED_CUR_MONTH)
+            .boundaryValue(UPDATED_BOUNDARY_VALUE);
 
         restTaskInfoMockMvc.perform(put("/api/task-infos")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -253,6 +261,7 @@ public class TaskInfoResourceIntTest {
         assertThat(testTaskInfo.getMinTask()).isEqualTo(UPDATED_MIN_TASK);
         assertThat(testTaskInfo.getMaxTask()).isEqualTo(UPDATED_MAX_TASK);
         assertThat(testTaskInfo.getCurMonth()).isEqualTo(UPDATED_CUR_MONTH);
+        assertThat(testTaskInfo.getBoundaryValue()).isEqualTo(UPDATED_BOUNDARY_VALUE);
     }
 
     @Test

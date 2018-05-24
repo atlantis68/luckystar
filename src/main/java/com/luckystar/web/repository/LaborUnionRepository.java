@@ -28,4 +28,5 @@ public interface LaborUnionRepository extends JpaRepository<LaborUnion,Long> {
     @Query("select labor_union from LaborUnion labor_union left join fetch labor_union.users where labor_union.id =:id")
     LaborUnion findOneWithEagerRelationships(@Param("id") Long id);
 
+    LaborUnion findLaborUnionById(Long id);
 }

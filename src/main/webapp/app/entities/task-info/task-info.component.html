@@ -2,12 +2,12 @@
     <div style="text-align: center">
     <h2>
         <span jhiTranslate="luckystarApp.taskInfo.home.title">Task Infos</span>
-        <button class="btn btn-primary float-right jh-create-entity create-task-info" [routerLink]="['/', { outlets: { popup: ['task-info-new'] } }]">
+<!--         <button class="btn btn-primary float-right jh-create-entity create-task-info" [routerLink]="['/', { outlets: { popup: ['task-info-new'] } }]">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="luckystarApp.taskInfo.home.createLabel">
             Create new Task Info
             </span>
-        </button>
+        </button> -->
     </h2>
     </div>
     <jhi-alert></jhi-alert>
@@ -22,6 +22,7 @@
             <th jhiSortBy="minTask"><span jhiTranslate="luckystarApp.taskInfo.minTask">Min Task</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="maxTask"><span jhiTranslate="luckystarApp.taskInfo.maxTask">Max Task</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="curMonth"><span jhiTranslate="luckystarApp.taskInfo.curMonth">Cur Month</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="boundaryValue"><span jhiTranslate="luckystarApp.taskInfo.boundaryValue">Boundary Value</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="userInfo.id"><span jhiTranslate="luckystarApp.taskInfo.userInfo">User Info</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
@@ -32,9 +33,10 @@
                 <td>{{taskInfo.minTask}}</td>
                 <td>{{taskInfo.maxTask}}</td>
                 <td>{{taskInfo.curMonth}}</td>
+                <td>{{taskInfo.boundaryValue}}</td>
                 <td>
                     <div *ngIf="taskInfo.userInfo">
-                        {{taskInfo.userInfo?.userName}}
+                        {{taskInfo.userInfo?.nickName}}/{{taskInfo.userInfo?.userName}}
                     </div>
                 </td>
                 <td class="text-right">

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response,ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { JhiDateUtils } from 'ng-jhipster';
 
@@ -20,6 +20,17 @@ export class WorkTimeBoardService {
             .map((res: Response) => this.convertResponse(res));
     }
 
+    export(req?: any): Observable<any> {
+        const options = createRequestOption(req);
+        options.responseType= ResponseContentType.Blob;
+       return this.http.get('api/work-time-excel', options)
+            .map(res => {
+                return {
+                    filename: '考勤详情.xls',
+                    data: res.blob()
+                };
+            });
+    }
 
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();

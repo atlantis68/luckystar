@@ -62,25 +62,30 @@
         <div class="row">
             <div class="col-md-1 jh-form-key">公会:</div>
             <div class="col-md-1">
-                <select #labor (change)="statementLabor(labor.value)" class="jh-select" >
-                    <option *ngFor="let opt of laborUnions" [value]="opt.lId">{{opt.name}}</option>
+                <select #labor (change)="statementLabor(labor.value)" class="jh-select">
+                    <option *ngFor="let opt of laborUnions" [value]="opt.id">{{opt.name}}</option>
                 </select>
             </div>
             <div class="col-md-1 jh-form-key">时间:</div>
             <div class="col-md-2" style="display: flex;">
-                <input id="field_regDate" type="text" class="form-control" name="regDate" ngbDatepicker  #regDateDp="ngbDatepicker" [(ngModel)]="day" [minDate]="minDate" [maxDate]="maxDate"
+                <input id="field_regDate" type="text" class="form-control" name="regDate" ngbDatepicker
+                       #regDateDp="ngbDatepicker" [(ngModel)]="day" [minDate]="minDate" [maxDate]="maxDate"
                        required/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="regDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                    <button type="button" class="btn btn-default" (click)="regDateDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
                 </span>
             </div>
             <div class="col-md-1 jh-form-key">关键字:</div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <input type="text" class="form-control" placeholder="输入用户名/昵称/繁星号/手机号/QQ号/微信号进行搜索"
                        [(ngModel)]="searchCondition">
             </div>
             <div class="col-md-1">
                 <button style="float:right" class="btn btn-success" (click)="loadAll()">搜索</button>
+            </div>
+            <div class="col-md-1">
+                <button style="float:right" class="btn btn-success" (click)="export()">导出</button>            
             </div>
         </div>
         <!--</form>-->
@@ -90,62 +95,68 @@
             <table class="table table-striped">
                 <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                	<th ><span>ID</span></th>
                     <th jhiSortBy="user_name"><span>姓名</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="nick_name"><span>昵称</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="star_id"><span>繁星ID</span> <span class="fa fa-sort"></span></th>
-                    <!--<th jhiSortBy="phone_number"><span>手机</span> <span class="fa fa-sort"></span></th>-->
-                    <!--<th jhiSortBy="qq"><span>QQ</span> <span class="fa fa-sort"></span></th>-->
-                    <!--<th jhiSortBy="wei_chat"><span>微信</span> <span class="fa fa-sort"></span></th>-->
-                    <th jhiSortBy="star_level"><span>明星等级</span> <span class="fa fa-sort"></span></th>
-                    <!--<th jhiSortBy="star_name"><span>明星级别</span> <span class="fa fa-sort"></span></th>-->
-                    <th jhiSortBy="rich_level"><span>财富等级</span> <span class="fa fa-sort"></span></th>
-                    <!--<th jhiSortBy="rich_name"><span>财富级别</span> <span class="fa fa-sort"></span></th>-->
-                    <th jhiSortBy="fans_count"><span>关注数</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="bean_by_day"><span>星豆数</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="bean_by_month"><span>月总数</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="min_task"><span>任务数</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="max_task"><span>目标数</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="worktime_by_month"><span>月工作时长</span> <span class="fa fa-sort"></span></th>
-                    <th ><span>合格天数</span> <span ></span></th>
+                    <th jhiSortBy="judegetime_by_month"><span>合格天数</span> <span class="fa fa-sort"></span></th>                    
+                    <th jhiSortBy="star_level"><span>明星等级</span> <span class="fa fa-sort"></span></th>
+                    <th jhiSortBy="rich_level"><span>财富等级</span> <span class="fa fa-sort"></span></th>
+                    <th jhiSortBy="fans_count"><span>关注数</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="reg_date"><span>开播日期</span> <span class="fa fa-sort"></span></th>
-                    <!--<th jhiSortBy="userName"> <span class="fa fa-sort"></span></th>-->
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let row of laborUnionBoards ;trackBy: trackId">
+                <tr *ngFor="let row of laborUnionBoards;trackBy: trackId;let i = index">
+                	<td>{{i + 1}}</td>
                     <td>{{row.userName}}</td>
                     <td>{{row.nickName}}</td>
                     <td>{{row.starId}}</td>
-                    <!--<td>{{row.phoneNumber}}</td>-->
-                    <!--<td>{{row.qq}}</td>-->
-                    <!--<td>{{row.weiChat}}</td>-->
-                    <td>{{row.starLevel}}</td>
-                    <!--<td>{{row.starName}}</td>-->
-                    <td>{{row.richLevel}}</td>
-                    <!--<td>{{row.richName}}</td>-->
-                    <td>{{row.fansCount}}</td>
                     <td>{{row.beanByDay}}</td>
                     <td>{{row.beanByMonth}}</td>
-                    <td>{{row.minTask}}</td>
-                    <td>{{row.maxTask}}</td>
+                    <td myHighlight [min]="row.beanByMonth?row.beanByMonth:0" [max]="row.minTask">{{row.minTask}}</td>
+                    <td myHighlight [min]="row.beanByMonth?row.beanByMonth:0" [max]="row.maxTask">{{row.maxTask}}</td>
                     <td>{{row.workTimeByMonth|timeFormat}}</td>
-                    <td>{{row.judgeTimeByMonth}}</td>
+                    <td>{{row.judgeTimeByMonth}}</td>                    
+                    <td>{{row.starLevel}}</td>
+                    <td>{{row.richLevel}}</td>
+                    <td>{{row.fansCount}}</td>
                     <td>{{row.regDate | date:'mediumDate'}}</td>
-                    <!--<td>{{row.name}}</td>-->
+                </tr>
+                <tr>
+                    <td>合计</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{getSumBeanByDay()| number}}</td>
+                    <td>{{getSumBeanByMonth()| number}}</td>                    
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <!-- Pager is not implemented yet, so this is normal pagination instead -->
-        <div *ngIf="laborUnionBoards && laborUnionBoards.length">
-            <div class="row justify-content-center">
-                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-            </div>
-            <div class="row justify-content-center">
-                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"
-                                (pageChange)="loadPage(page)"></ngb-pagination>
-            </div>
-        </div>
+        <!--<div *ngIf="laborUnionBoards && laborUnionBoards.length">-->
+        <!--<div class="row justify-content-center">-->
+        <!--<jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>-->
+        <!--</div>-->
+        <!--<div class="row justify-content-center">-->
+        <!--<ngb-pagination [collectionSize]="totalItems" [(page)]="page"-->
+        <!--(pageChange)="loadPage(page)"></ngb-pagination>-->
+        <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
 
@@ -155,7 +166,8 @@
         line-height: 34px;
         padding-right: 0px;
     }
-    .jh-select{
+
+    .jh-select {
         height: 38px;
         vertical-align: middle
     }

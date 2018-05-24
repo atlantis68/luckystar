@@ -2,11 +2,12 @@
     <div style="text-align: center">
     <h2>
         <span jhiTranslate="luckystarApp.userInfo.home.title">User Infos</span>
-        <button class="btn btn-primary float-right jh-create-entity create-user-info" [routerLink]="['/', { outlets: { popup: ['user-info-new'] } }]">
+        <button  [disabled]="totalItems>=maxMember" class="btn btn-primary float-right jh-create-entity create-user-info" [routerLink]="['/', { outlets: { popup: ['user-info-new'] } }]">
             <span class="fa fa-plus"></span>
-            <span  jhiTranslate="luckystarApp.userInfo.home.createLabel">
+            <span  [hidden]="totalItems>=maxMember" jhiTranslate="luckystarApp.userInfo.home.createLabel">
             Create new User Info
             </span>
+            <span [hidden]="totalItems<maxMember">最大上限{{maxMember}}人</span>
         </button>
     </h2>
     </div>
@@ -26,7 +27,6 @@
             <th jhiSortBy="weiChat"><span jhiTranslate="luckystarApp.userInfo.weiChat">Wei Chat</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="starId"><span jhiTranslate="luckystarApp.userInfo.starId">Star Id</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="regDate"><span jhiTranslate="luckystarApp.userInfo.regDate">Reg Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="loginName"><span jhiTranslate="luckystarApp.userInfo.loginName">Login Name</span> <span class="fa fa-sort"></span></th>
             <!--<th jhiSortBy="password"><span jhiTranslate="luckystarApp.userInfo.password">Password</span> <span class="fa fa-sort"></span></th>-->
             <th *jhiHasAnyAuthority="['ROLE_ADMIN']" jhiSortBy="cookie"><span jhiTranslate="luckystarApp.userInfo.cookie">Cookie</span> <span class="fa fa-sort"></span></th>
             <th *jhiHasAnyAuthority="['ROLE_ADMIN']" jhiSortBy="timeRate"><span jhiTranslate="luckystarApp.userInfo.timeRate">Time Rate</span> <span class="fa fa-sort"></span></th>
@@ -48,7 +48,6 @@
                 <td>{{userInfo.weiChat}}</td>
                 <td>{{userInfo.starId}}</td>
                 <td>{{userInfo.regDate | date:'mediumDate'}}</td>
-                <td>{{userInfo.loginName}}</td>
                 <!--<td>{{userInfo.password}}</td>-->
                 <td *jhiHasAnyAuthority="['ROLE_ADMIN']">{{userInfo.cookie}}</td>
                 <td *jhiHasAnyAuthority="['ROLE_ADMIN']">{{userInfo.timeRate}}</td>

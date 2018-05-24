@@ -41,6 +41,9 @@ export class TaskInfoPopupService {
 
     taskInfoModalRef(component: Component, taskInfo: TaskInfo): NgbModalRef {
         const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
+        if(!taskInfo.boundaryValue){
+            taskInfo.boundaryValue=240;
+        }
         modalRef.componentInstance.taskInfo = taskInfo;
         modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
