@@ -84,7 +84,7 @@
             <div class="col-md-1">
                 <button style="float:right" class="btn btn-success" (click)="loadAll()">搜索</button>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-1" *ngIf="exportExcel">
                 <button style="float:right" class="btn btn-success" (click)="export()">导出</button>            
             </div>
         </div>

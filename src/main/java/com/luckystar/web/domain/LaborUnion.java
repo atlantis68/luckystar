@@ -1,19 +1,31 @@
 package com.luckystar.web.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.luckystar.web.domain.enumeration.Source;
 import com.luckystar.web.domain.enumeration.State;
 
-import com.luckystar.web.domain.enumeration.Source;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * A LaborUnion.
@@ -67,6 +79,9 @@ public class LaborUnion implements Serializable {
     
     @Column(name = "auto_exchange")
     private boolean autoExchange;
+    
+    @Column(name = "export_excel")
+    private boolean exportExcel;
 
     /**
      * 数据采集来源 0：繁星
@@ -274,4 +289,11 @@ public class LaborUnion implements Serializable {
 		this.autoExchange = autoExchange;
 	}
 
+    public boolean isExportExcel() {
+		return exportExcel;
+	}
+	
+	public void setExportExcel(boolean exportExcel) {
+		this.exportExcel = exportExcel;
+	}
 }

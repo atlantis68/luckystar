@@ -39,6 +39,7 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     laborUnions: any;
     minDate: any;
     maxDate: any;
+    exportExcel:any;
 
     constructor(private chickenInfoBoardService: ChickenInfoBoardService,
                 private laborUnionService: LaborUnionService,
@@ -127,6 +128,7 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
         this.laborUnions = data.laborUnions;
 
         this.labor = this.laborUnions[0].id;
+        this.exportExcel = this.laborUnions[0].exportExcel;
         this.loadAll();
 
     }
@@ -168,8 +170,13 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    statementLabor(labor?: string): void {
-        this.labor = labor;
+    statementLabor(labor?: number): void {
+    	this.labor = labor;
+        for (let item of this.laborUnions) {
+            if(item.id == labor) {
+            	this.exportExcel = item.exportExcel;
+            }
+        }
         this.loadAll();
     }
 
