@@ -43,6 +43,7 @@ export class WorkTimeBoardComponent implements OnInit, OnDestroy {
     searchCondition: any
     minDate: any;
     maxDate: any;
+    exportExcel:any;
 
     constructor(private workTimeBoardService: WorkTimeBoardService,
                 private parseLinks: JhiParseLinks,
@@ -109,6 +110,7 @@ export class WorkTimeBoardComponent implements OnInit, OnDestroy {
         this.laborUnions = data.laborUnions;
 
         this.labor = this.laborUnions[0].id;
+        this.exportExcel = this.laborUnions[0].exportExcel;
         this.loadAll();
 
     }
@@ -152,6 +154,12 @@ export class WorkTimeBoardComponent implements OnInit, OnDestroy {
         }
         // this.totalItems=uniqueId.length;
         this.queryCount = this.totalItems;
+        
+        for (let item of this.laborUnions) {
+            if(item.id == this.labor) {
+            	this.exportExcel = item.exportExcel;
+            }
+        }
     }
 
     private onError(error) {
