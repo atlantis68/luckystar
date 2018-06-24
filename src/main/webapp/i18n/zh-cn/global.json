@@ -6,14 +6,19 @@
             "home": "首页",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "dashboard":{
-                "main": "功能",
-                "kpi":"业绩",
-                "attendance":"考勤",
-                "exchange":"兑换",
-                "monitor":"监控"
+                "main": "基础功能",
+                "kpi":"业绩排行",
+                "attendance":"考勤详情",
+                "exchange":"星豆兑换",
+                "monitor":"实时监控"
             },
+            "advanced":{
+                "main": "高级功能",
+                "kpibyuser":"星豆详情",
+                "kpibyloaborunion":"星豆统计"
+            },            
             "entities": {
-                "main": "数据",
+                "main": "数据管理",
                 "laborUnion": "公会管理",
                 "taskInfo": "任务管理",
                 "workInfo": "工作管理",

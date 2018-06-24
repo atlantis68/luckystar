@@ -10,6 +10,7 @@ import { LuckystarAdminModule } from './admin/admin.module';
 import { LuckystarAccountModule } from './account/account.module';
 import { LuckystarEntityModule } from './entities/entity.module';
 import { LuckystarDashboardModule } from './dashboard/dashboard.module';
+import { LuckystarAdvancedModule } from './advanced/advanced.module';
 
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
@@ -38,7 +39,8 @@ import {
         LuckystarAdminModule,
         LuckystarAccountModule,
         LuckystarEntityModule,
-        LuckystarDashboardModule
+        LuckystarDashboardModule,
+        LuckystarAdvancedModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
