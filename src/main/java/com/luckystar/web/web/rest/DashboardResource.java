@@ -142,9 +142,9 @@ public class DashboardResource {
 			cell = row.createCell(2);
 			cell.setCellValue(userInfoBoard.getStarId());
 			cell = row.createCell(3);
-			cell.setCellValue(userInfoBoard.getBeanByDay());
+			cell.setCellValue(userInfoBoard.getBeanByDay() != null ? userInfoBoard.getBeanByDay() : 0);
 			cell = row.createCell(4);
-			cell.setCellValue(userInfoBoard.getBeanByMonth());
+			cell.setCellValue(userInfoBoard.getBeanByMonth() != null ? userInfoBoard.getBeanByMonth() : 0);
 			cell = row.createCell(5);
 			cell.setCellValue(userInfoBoard.getMinTask());
 			if(userInfoBoard.getBeanByMonth() > userInfoBoard.getMinTask()) {
@@ -156,7 +156,8 @@ public class DashboardResource {
 				cell.setCellStyle(greenStyle);
 			}
 			cell = row.createCell(7);
-			cell.setCellValue(formatTime(userInfoBoard.getWorkTimeByMonth()));
+			cell.setCellValue(formatTime(userInfoBoard.getWorkTimeByMonth() != null ? 
+					userInfoBoard.getWorkTimeByMonth() : 0));
 			cell = row.createCell(8);
 			cell.setCellValue(userInfoBoard.getJudgeTimeByMonth());
 			cell = row.createCell(9);
@@ -164,7 +165,7 @@ public class DashboardResource {
 			cell = row.createCell(10);
 			cell.setCellValue(userInfoBoard.getRichLevel());
 			cell = row.createCell(11);
-			cell.setCellValue(userInfoBoard.getFansCount());
+			cell.setCellValue(userInfoBoard.getFansCount() != null ? userInfoBoard.getFansCount() : 0);
 			cell = row.createCell(12);
 			cell.setCellValue(userInfoBoard.getRegDate().toString());
 		}
@@ -602,6 +603,7 @@ public class DashboardResource {
         all.setId(-1l);
         all.setlId(-1);
         all.setName("全部");
+        all.setExportExcel(true);
         laborUnions.add(all);
         res.put("laborUnions",laborUnions);
 
