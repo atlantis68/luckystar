@@ -94,4 +94,30 @@ public interface WorkTimeBoardRepository  extends JpaRepository<WorkTimeBoard, L
 			+ "AND (ci.user_name LIKE ?3   OR ci.nick_name LIKE ?3  OR ci.star_id LIKE ?3   OR ci.phone_number LIKE ?3   "
 			+ "OR ci.qq LIKE ?3   OR ci.wei_chat LIKE ?3)) wi2 ",nativeQuery = true)
 	List<WorkTimeBoard> getKpiByUserByDay(Long userId, List<String> days, String searchCondition);
+
+	@Query(value = "SELECT * from (SELECT wi.id, lu.name AS user_name, ci.star_id AS nick_name, lu.id AS star_id, (SELECT    SUM(wi2.bean_total - fisrt_bean)  "
+			+ "FROM work_info wi2  WHERE ti.cur_month = wi2.cur_month      AND wi2.star_id = wi.star_id) AS worktime_by_month, '' AS judge_by_month, "
+			+ "wi.bean_total - fisrt_bean AS work_time, wi.cur_day, ti.boundary_value FROM labor_union lu, user_info ci, task_info ti, work_info wi "
+			+ "WHERE lu.id = ci.labor_union_id AND ci.star_id = wi.star_id AND wi.task_info_id = ti.id AND lu.id = ?1 AND wi.cur_month = ?2) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getKpiByLaborUnionCurMonthByLid(Long laborUnionId, Long days);
+	
+	@Query(value = "SELECT * from (SELECT wi.id, lu.name AS user_name, ci.star_id AS nick_name, lu.id AS star_id, (SELECT    SUM(wi2.bean_total - fisrt_bean)  "
+			+ "FROM work_info wi2  WHERE ti.cur_month = wi2.cur_month      AND wi2.star_id = wi.star_id) AS worktime_by_month, '' AS judge_by_month, "
+			+ "wi.bean_total - fisrt_bean AS work_time, wi.cur_day, ti.boundary_value FROM labor_union lu, user_info ci, task_info ti, work_info wi "
+			+ "WHERE lu.id = ci.labor_union_id AND ci.star_id = wi.star_id AND wi.task_info_id = ti.id AND lu.id = ?1 AND wi.cur_day IN ?2 ) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getKpiByLaborUnionByDayByLid(Long laborUnionId, List<String> days);
+	
+	@Query(value = "SELECT * from (SELECT wi.id, lu.name AS user_name, ci.star_id AS nick_name, lu.id AS star_id, (SELECT    SUM(wi2.bean_total - fisrt_bean)  "
+			+ "FROM work_info wi2  WHERE ti.cur_month = wi2.cur_month      AND wi2.star_id = wi.star_id) AS worktime_by_month, '' AS judge_by_month, "
+			+ "wi.bean_total - fisrt_bean AS work_time, wi.cur_day, ti.boundary_value FROM labor_union lu, user_info ci, task_info ti, work_info wi, "
+			+ "labor_union_user luu WHERE lu.id = ci.labor_union_id   AND ci.star_id = wi.star_id   AND wi.task_info_id = ti.id  AND luu.users_id = ?1 "
+			+ "AND luu.labor_unions_id = ci.labor_union_id AND wi.cur_month = ?2 ) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getKpiByLaborUnionCurMonth(Long userId, Long days);
+	
+	@Query(value = "SELECT * from (SELECT wi.id, lu.name AS user_name, ci.star_id AS nick_name, lu.id AS star_id, (SELECT    SUM(wi2.bean_total - fisrt_bean)  "
+			+ "FROM work_info wi2  WHERE ti.cur_month = wi2.cur_month      AND wi2.star_id = wi.star_id) AS worktime_by_month, '' AS judge_by_month, "
+			+ "wi.bean_total - fisrt_bean AS work_time, wi.cur_day, ti.boundary_value FROM labor_union lu, user_info ci, task_info ti, work_info wi, "
+			+ "labor_union_user luu WHERE lu.id = ci.labor_union_id   AND ci.star_id = wi.star_id AND luu.users_id = ?1 "
+			+ "AND luu.labor_unions_id = ci.labor_union_id AND wi.task_info_id = ti.id   AND wi.cur_day IN ?2 ) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getKpiByLaborUnionByDay(Long userId, List<String> days);
 }

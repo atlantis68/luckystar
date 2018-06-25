@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
@@ -578,6 +579,202 @@ public class DashboardResource {
         return list;
     }
 
+    @GetMapping("/kpi-by-laborunion")
+    @Timed
+    public ResponseEntity<List<WorkTimeBoard>> getKpiByLaborUnionToHtml(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
+    			"getKpiByLaborUnionToHtml", laborUnionId, date, day, searchCondition);
+
+    	List<WorkTimeBoard> list = getKpiByLaborUnion(laborUnionId, date, day, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/kpi-by-laborunion-excel")
+    @Timed
+    public void getKpiByLaborUnionToExcel(Long laborUnionId,String date, Integer day, String searchCondition, 
+    		@ApiParam Pageable pageable, HttpServletRequest request, HttpServletResponse response) {
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
+    			"getKpiByLaborUnionToExcel", laborUnionId, date, day, searchCondition);
+    	
+    	List<WorkTimeBoard> list = getKpiByLaborUnion(laborUnionId, date, day, pageable);
+    	Table<Long, LocalDate, WorkTimeBoard> table = HashBasedTable.create();
+    	Set<LocalDate> allDates = new TreeSet<LocalDate>(new Comparator<LocalDate>() {
+
+			@Override
+			public int compare(LocalDate o1, LocalDate o2) {
+				if(o1.isBefore(o2)) {
+					return 1;
+				} else if(o1.isAfter(o2)) {
+					return -1;
+				}
+				return 0;
+			}
+
+    	});
+       	for(WorkTimeBoard workTimeBoard : list) {
+       		table.put(workTimeBoard.getStarId(), workTimeBoard.getCurDay(), workTimeBoard);
+       		allDates.add(workTimeBoard.getCurDay());
+    	}
+    	int rowSeq = 0;
+    	int columnSeq = 2;
+		HSSFWorkbook wb = new HSSFWorkbook(); 
+		HSSFSheet sheet = wb.createSheet("" + day);
+		HSSFRow row = sheet.createRow(rowSeq++);   
+		HSSFCell cellTitle = row.createCell(0);
+		cellTitle.setCellValue("名称");
+		sheet.setColumnWidth(0, 20 * 256);
+		cellTitle = row.createCell(1);
+		cellTitle.setCellValue("月星豆数");
+		sheet.setColumnWidth(1, 15 * 256);
+		for(LocalDate curDay : allDates) {
+			cellTitle = row.createCell(columnSeq);
+			cellTitle.setCellValue("" + curDay);
+			sheet.setColumnWidth(columnSeq++, 15 * 256);
+		}
+		cellTitle = row.createCell(columnSeq);
+		cellTitle.setCellValue("总计");
+		sheet.setColumnWidth(columnSeq, 15 * 256);
+    	for(Long starId : table.rowKeySet()) {
+    		row = sheet.createRow(rowSeq++);
+    		boolean isCommon = true;  
+    		columnSeq = 2;
+    		Long sum = 0l;
+    		for(LocalDate curDay : allDates) {
+    			WorkTimeBoard workTimeBoard = table.get(starId, curDay);
+    			if(workTimeBoard != null) {
+    				if(isCommon) {
+    					HSSFCell cell = row.createCell(0);
+    					cell.setCellValue(workTimeBoard.getUserName());
+    					cell = row.createCell(1); 
+    					cell.setCellValue(workTimeBoard.getWorkTimeByMonth() != null ? workTimeBoard.getWorkTimeByMonth() : 0l);
+    					cell = row.createCell(columnSeq++);
+    					double curWorkTime = workTimeBoard.getWorkTime() != null ? workTimeBoard.getWorkTime() : 0d;
+    					cell.setCellValue((long)curWorkTime);
+    					sum += (long)curWorkTime;
+    					isCommon = false;
+    				} else {
+    					HSSFCell cell = row.createCell(columnSeq++);
+    					double curWorkTime = workTimeBoard.getWorkTime() != null ? workTimeBoard.getWorkTime() : 0d;
+    					cell.setCellValue((long)curWorkTime);
+    					sum += (long)curWorkTime;
+    				}
+    			} else {
+					HSSFCell cell = row.createCell(columnSeq++);
+					cell.setCellValue(0l);
+    			}
+    		}
+    		HSSFCell cell = row.createCell(columnSeq);
+    		cell.setCellValue(sum);
+    	}
+    	row = sheet.createRow(rowSeq);   
+    	HSSFCell cell = row.createCell(0);
+    	cell.setCellValue("合计");
+    	for(int i = 1; i < columnSeq + 1; i++) {
+    		cell = row.createCell(i);
+    		long sum = 0;
+    		for(int j = 1; j < rowSeq; j++) {
+    			sum += sheet.getRow(j).getCell(i).getNumericCellValue();
+    		}
+    		cell.setCellValue(sum);
+    	}
+		BufferedInputStream bis = null;  
+        BufferedOutputStream bos = null;  
+		try {  
+            ByteArrayOutputStream os = new ByteArrayOutputStream();  
+            wb.write(os);  
+            byte[] content = os.toByteArray();  
+            InputStream is = new ByteArrayInputStream(content);  
+            response.reset();  
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/octet-stream");  
+            response.setHeader("Content-Disposition", "attachment;filename="+ new String((day + ".xls").getBytes(), "utf-8"));  
+            ServletOutputStream out = response.getOutputStream();  
+            bis = new BufferedInputStream(is);  
+            bos = new BufferedOutputStream(out);  
+            byte[] buff = new byte[2048];  
+            int bytesRead;  
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {  
+                bos.write(buff, 0, bytesRead);  
+            }  
+        } catch (Exception e) {  
+            log.error("=====export exception=====", e);  
+        }finally {  
+            try {  
+                if(bis != null)  
+                    bis.close();  
+                if(bos != null)  
+                    bos.close();  
+            } catch (IOException e) {  
+                log.error("=====close flow exception=====", e);  
+            }  
+        } 
+    }
+    
+    private List<WorkTimeBoard> getKpiByLaborUnion(Long laborUnionId,String date, Integer day, @ApiParam Pageable pageable) {
+        DateTime dt = new DateTime(date);
+        List<WorkTimeBoard> list = null;
+        if (day == null) {
+            day = 1;
+        }
+        if (day.equals(30)) {
+        	if(laborUnionId > 0) {
+        		list = workTimeBoardRepository.getKpiByLaborUnionCurMonthByLid(laborUnionId, Long.valueOf(dt.toString("yyyyMM")));
+        	} else {
+        		Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
+        		list = workTimeBoardRepository.getKpiByLaborUnionCurMonth(user.get().getId(), Long.valueOf(dt.toString("yyyyMM")));
+        	}
+        } else {
+            List<String> days = new ArrayList<>();
+            for (int i = 0; i <= day; i++) {
+                days.add(dt.plusDays(-i).toString("yyyy-MM-dd"));
+            }
+            if(laborUnionId > 0) {
+            	list = workTimeBoardRepository.getKpiByLaborUnionByDayByLid(laborUnionId, days);
+            } else {
+            	Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
+            	list = workTimeBoardRepository.getKpiByLaborUnionByDay(user.get().getId(), days);
+            }
+        }
+        if(list != null) {
+        	Table<Long, String, Long> beanByUser = HashBasedTable.create();
+        	Table<Long, LocalDate, WorkTimeBoard> beanByDate = HashBasedTable.create();
+        	for(WorkTimeBoard workTimeBoard : list) {
+        		WorkTimeBoard existInfo = beanByDate.get(workTimeBoard.getStarId(), workTimeBoard.getCurDay());
+        		if(existInfo == null) {
+        			beanByDate.put(workTimeBoard.getStarId(), workTimeBoard.getCurDay(), workTimeBoard);
+        		} else {
+        			Double bean = 0d;
+        			if(existInfo.getWorkTime() != null) {
+        				bean = existInfo.getWorkTime();
+        			}
+        			if(workTimeBoard.getWorkTime() != null) {
+        				bean += workTimeBoard.getWorkTime();
+        			}
+        			existInfo.setWorkTime(bean);
+        		}
+        		if(!beanByUser.contains(workTimeBoard.getStarId(), workTimeBoard.getNickName())) {
+        			beanByUser.put(workTimeBoard.getStarId(), workTimeBoard.getNickName(), 
+        					workTimeBoard.getWorkTimeByMonth() != null ? workTimeBoard.getWorkTimeByMonth() : 0l);
+        		} 
+        	}
+        	list.clear();
+        	for(Long starId : beanByDate.rowKeySet()) {
+        		Long allBean = 0l;
+        		for(Long bean : beanByUser.row(starId).values()) {
+        			if(bean != null) {
+        				allBean += bean;        				
+        			}
+        		}
+        		for(WorkTimeBoard workTimeBoard : beanByDate.row(starId).values()) {
+        			workTimeBoard.setWorkTimeByMonth(allBean);
+        			list.add(workTimeBoard);
+        		}
+        	}
+        }
+        ComparatorWorkTime comparatorWorkTime = new ComparatorWorkTime(pageable.getSort().toString());
+        Collections.sort(list, comparatorWorkTime);
+        return list;
+    }
 
     @GetMapping("/recent-time")
     @Timed

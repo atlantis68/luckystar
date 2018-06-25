@@ -1,0 +1,180 @@
+<div>
+    <h2>
+        <h1 style="text-align: center">星豆统计</h1>
+    </h2>
+
+    <jhi-alert></jhi-alert>
+    <br>
+
+    <div>
+        <br>
+        <div class="row">
+            <div class="col-md-1 jh-form-key">公会:</div>
+            <div class="col-md-2">
+                <select (change)="loadAll()" class="jh-select" [(ngModel)]="labor">
+                    <option *ngFor="let opt of laborUnions" [value]="opt.id">{{opt.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-1 jh-form-key">时间:</div>
+            <div class="col-md-2" style="display: flex;">
+                <input id="field_regDate" type="text" class="form-control" name="regDate" ngbDatepicker
+                       #regDateDp="ngbDatepicker" [(ngModel)]="regDate" [minDate]="minDate" [maxDate]="maxDate"
+                       required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="regDateDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div class="col-md-1 jh-form-key"></div>
+            <div class="col-md-2">
+                <select class="jh-select" [(ngModel)]="day" (change)="loadAll()">
+                    <option value="0">当天</option>
+                    <option value="1">之前1天</option>
+                    <option value="2">之前2天</option>
+                    <option value="3">之前3天</option>
+                    <option value="4">之前4天</option>
+                    <option value="5">之前5天</option>
+                    <option value="6">之前6天</option>
+                    <option value="7">之前7天</option>
+                    <option value="30">当月</option>
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <button style="float:right" class="btn btn-success" (click)="loadAll()">搜索</button>
+            </div>
+            <div class="col-md-1" *ngIf="exportExcel">
+                <button style="float:right" class="btn btn-success" (click)="export()">导出</button>            
+            </div>            
+        </div>
+        <!--</form>-->
+        <br/>
+        <div class="table-responsive" *ngIf="data" class="table-wrapper">
+            <table class="table table-striped" id="consumption-data" class="data">
+                <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                	<th ><span>ID</span></th>
+                    <th jhiSortBy="user_name"><span>名称</span> <span class="fa fa-sort"></span></th>
+                    <th jhiSortBy="worktime_by_month"><span>月星豆数</span> <span class="fa fa-sort"></span></th>
+                    <th *ngFor="let day of uniqueDate" jhiSortBy="{{day}}">
+                        <span>{{day| date:'mediumDate'}}</span> <span class="fa fa-sort"></span>
+
+                    </th>
+                    <th jhiSortBy="total"><span>总计</span> <span class="fa fa-sort"></span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of data;trackBy: trackId;let i = index">
+                	<td>{{i + 1}}</td>
+                    <td>{{row.data.userName}}</td>
+                    <td>{{row.data.workTimeByMonth|number:0}}</td>
+                    <!--<td>{{row.data.totalTime}}</td>-->
+                    <td *ngFor="let day of uniqueDate">
+                        {{(row.date[day]?row.date[day]:0)|number:0}}
+                    </td>
+                    <td>
+                        {{row.total|number:0}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>合计</td>
+                    <td></td>
+                    <td>{{sums.totalSum|number:0}}</td>
+                    <td *ngFor="let day of uniqueDate">
+                        {{(sums[day]?sums[day]:0)|number:0}}
+                    </td>                  
+                    <td>
+                        {{sums.allSum|number:0}}
+                    </td>
+                </tr>                
+                </tbody>
+            </table>
+        </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <!--<div *ngIf="data && data.length">-->
+        <!--<div class="row justify-content-center">-->
+        <!--<jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>-->
+        <!--</div>-->
+        <!--<div class="row justify-content-center">-->
+        <!--<ngb-pagination [collectionSize]="totalItems" [(page)]="page"-->
+        <!--(pageChange)="loadPage(page)"></ngb-pagination>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+
+<style>
+    .jh-form-key {
+        text-align: right;
+        line-height: 34px;
+        padding-right: 0px;
+    }
+
+    .jh-select {
+        height: 38px;
+        vertical-align: middle
+    }
+
+    .table-wrapper {
+        /*overflow-x: scroll;*/
+        overflow-y: scroll;
+        /*width: 800px;*/
+        margin-left: 350px;
+
+    }
+
+    .table-wrapper table {
+        /*margin-left: 100px;*/
+    }
+
+    td, th {
+        white-space: nowrap;
+        width: 200px;
+    }
+
+    td:first-child {
+        position: absolute;
+        left: 0px;
+        width: 50px;
+        overflow: hidden;
+    }
+
+    th:first-child {
+        position: absolute;
+        left: 0px;
+        width: 50px;
+        overflow: hidden;
+    }
+
+    td:nth-child(2) {
+        position: absolute;
+        left: 50px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    th:nth-child(2) {
+        position: absolute;
+        left: 50px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    td:nth-child(3) {
+        position: absolute;
+        left: 200px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+    th:nth-child(3) {
+        position: absolute;
+        left: 200px;
+        width: 150px;
+        overflow: hidden;
+    }
+
+</style>
+
+<!--<p myHighlight highlightColor="yellow">Highlighted in yellow</p>-->
+<!--<p myHighlight [highlightColor]="orange">Highlighted in orange</p>-->
