@@ -152,7 +152,10 @@ export class KpiByLaborUnionComponent implements OnInit, OnDestroy {
         for (let item in this.data) {
             let sum: number = 0;
             for (let ix in uniqueDate) {
-                sum += this.data[item].date[uniqueDate[ix]]?this.data[item].date[uniqueDate[ix]]:0;
+            	if (!this.data[item].date[uniqueDate[ix]]) {
+            		this.data[item].date[uniqueDate[ix]] = 0;
+            	}
+                sum += this.data[item].date[uniqueDate[ix]];
             }
 			allSum += sum;
             this.data[item].total = sum;
