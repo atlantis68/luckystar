@@ -743,7 +743,7 @@ public class DashboardResource {
         		if(existInfo == null) {
         			beanByDate.put(workTimeBoard.getStarId(), workTimeBoard.getCurDay(), workTimeBoard);
         		} else {
-        			Double bean = 0d;
+        			Long bean = 0l;
         			if(existInfo.getWorkTime() != null) {
         				bean = existInfo.getWorkTime();
         			}

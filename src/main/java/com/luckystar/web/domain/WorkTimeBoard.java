@@ -49,7 +49,7 @@ public class WorkTimeBoard  implements Serializable {
 	 * 按天统计的工作时长
 	 */
     @Column(name = "work_time")
-    private Double workTime;
+    private Long workTime;
 
     /**
      * 具体日期
@@ -121,12 +121,12 @@ public class WorkTimeBoard  implements Serializable {
 	}
 
 
-	public Double getWorkTime() {
+	public Long getWorkTime() {
 		return workTime;
 	}
 
 
-	public void setWorkTime(Double workTime) {
+	public void setWorkTime(Long workTime) {
 		this.workTime = workTime;
 	}
 

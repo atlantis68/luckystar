@@ -193,7 +193,7 @@ export class KpiByUserComponent implements OnInit, OnDestroy {
     }
 
     sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        const result = [this.predicate + ',' + (this.reverse ? 'desc' : 'asc')];
         // if (this.predicate !== 'id') {
         //     result.push('id');
         // }
@@ -208,13 +208,6 @@ export class KpiByUserComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        // this.router.navigate(['/labor-union'], {
-        //     queryParams: {
-        //         page: this.page,
-        //         size: this.itemsPerPage,
-        //         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-        //     }
-        // });
 
         if (this.sort()[0].indexOf(",") > -1) {
             let str: string[] = this.sort()[0].split(",");
@@ -249,7 +242,7 @@ export class KpiByUserComponent implements OnInit, OnDestroy {
         this.page = 0;
         this.router.navigate(['/labor-union', {
             page: this.page,
-            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            sort: this.predicate + ',' + (this.reverse ? 'desc' : 'asc')
         }]);
         this.loadAll();
     }
