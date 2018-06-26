@@ -84,13 +84,6 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        // this.router.navigate(['/labor-union'], {
-        //     queryParams: {
-        //         page: this.page,
-        //         size: this.itemsPerPage,
-        //         sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-        //     }
-        // });
         this.loadAll();
     }
 
@@ -98,7 +91,7 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
         this.page = 0;
         this.router.navigate(['/labor-union', {
             page: this.page,
-            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            sort: this.predicate + ',' + (this.reverse ? 'desc' : 'asc')
         }]);
         this.loadAll();
     }
@@ -146,7 +139,7 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     }
 
     sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        const result = [this.predicate + ',' + (this.reverse ? 'desc' : 'asc')];
         if (this.predicate !== 'id') {
             result.push('id');
         }

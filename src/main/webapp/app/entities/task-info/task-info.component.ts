@@ -69,7 +69,7 @@ currentAccount: any;
             {
                 page: this.page,
                 size: this.itemsPerPage,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                sort: this.predicate + ',' + (this.reverse ?  'desc' : 'asc')
             }
         });
         this.loadAll();
@@ -79,7 +79,7 @@ currentAccount: any;
         this.page = 0;
         this.router.navigate(['/task-info', {
             page: this.page,
-            sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+            sort: this.predicate + ',' + (this.reverse ?  'desc' : 'asc')
         }]);
         this.loadAll();
     }
@@ -103,7 +103,7 @@ currentAccount: any;
     }
 
     sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        const result = [this.predicate + ',' + (this.reverse ?  'desc' : 'asc')];
         if (this.predicate !== 'id') {
             result.push('id');
         }

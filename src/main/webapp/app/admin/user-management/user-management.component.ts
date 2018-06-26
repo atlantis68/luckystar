@@ -93,7 +93,7 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     }
 
     sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        const result = [this.predicate + ',' + (this.reverse ?  'desc' : 'asc')];
         if (this.predicate !== 'id') {
             result.push('id');
         }
@@ -111,7 +111,7 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         this.router.navigate(['/user-management'], {
             queryParams: {
                 page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                sort: this.predicate + ',' + (this.reverse ?  'desc' : 'asc')
             }
         });
         this.loadAll();
