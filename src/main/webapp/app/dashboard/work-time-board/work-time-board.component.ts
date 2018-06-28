@@ -64,6 +64,7 @@ export class WorkTimeBoardComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+		document.getElementById('base').style.display='none';
         this.workTimeBoardService.query({
             query: {
                 day: this.day,
@@ -163,10 +164,11 @@ export class WorkTimeBoardComponent implements OnInit, OnDestroy {
             	this.exportExcel = item.exportExcel;
             }
         }
+        document.getElementById('base').style.display='block';
     }
 
     private onError(error) {
-
+		document.getElementById('base').style.display='block';
     }
 
     sort() {

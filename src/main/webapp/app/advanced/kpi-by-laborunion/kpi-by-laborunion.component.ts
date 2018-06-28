@@ -64,6 +64,7 @@ export class KpiByLaborUnionComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+    	document.getElementById('base').style.display='none';
         this.kpiByLaborUnionService.query({
             query: {
                 day: this.day,
@@ -184,10 +185,11 @@ export class KpiByLaborUnionComponent implements OnInit, OnDestroy {
             	this.exportExcel = item.exportExcel;
             }
         }
+        document.getElementById('base').style.display='block';
     }
 
     private onError(error) {
-
+		document.getElementById('base').style.display='block';
     }
 
     sort() {

@@ -61,6 +61,7 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
+    	document.getElementById('base').style.display='none';
         this.chickenInfoBoardService.query({
             query: {
                 day: this.day.year + "-" + this.day.month + "-" + this.day.day,
@@ -152,10 +153,12 @@ export class ChickenInfoBoardComponent implements OnInit, OnDestroy {
         this.queryCount = this.totalItems;
         // this.page = pagingParams.page;
         this.laborUnionBoards = data;
+        document.getElementById('base').style.display='block';
     }
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+        document.getElementById('base').style.display='block';
     }
 
     statement(day?: string): void {
