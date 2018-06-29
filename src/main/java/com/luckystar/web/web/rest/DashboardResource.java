@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
@@ -770,6 +769,122 @@ public class DashboardResource {
         			list.add(workTimeBoard);
         		}
         	}
+        }
+        ComparatorWorkTime comparatorWorkTime = new ComparatorWorkTime(pageable.getSort().toString());
+        Collections.sort(list, comparatorWorkTime);
+        return list;
+    }
+    
+
+
+    
+    @GetMapping("/exchange-history")
+    @Timed
+    public ResponseEntity<List<WorkTimeBoard>> getExchangeHistoryToHtml(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
+    			"getExchangeHistoryToHtml", laborUnionId, date, day, searchCondition);
+
+    	List<WorkTimeBoard> list = getExchangeHistoryByUser(laborUnionId, date, day, searchCondition, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/exchange-history-excel")
+    @Timed
+    public void getExchangeHistoryToExcel(Long laborUnionId,String date, Integer day, String searchCondition, 
+    		@ApiParam Pageable pageable, HttpServletRequest request, HttpServletResponse response) {
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
+    			"getExchangeHistoryToExcel", laborUnionId, date, day, searchCondition);
+    	
+    	List<WorkTimeBoard> list = getExchangeHistoryByUser(laborUnionId, date, day, searchCondition, pageable);
+    	int rowSeq = 0;
+		HSSFWorkbook wb = new HSSFWorkbook(); 
+		HSSFSheet sheet = wb.createSheet("" + day);
+		HSSFRow row = sheet.createRow(rowSeq++);   
+		HSSFCell cellTitle = row.createCell(0);
+		cellTitle.setCellValue("姓名");
+		sheet.setColumnWidth(0, 20 * 256);
+		cellTitle = row.createCell(1);
+		cellTitle.setCellValue("昵称");
+		sheet.setColumnWidth(1, 20 * 256);
+		cellTitle = row.createCell(2);
+		cellTitle.setCellValue("繁星ID");
+		sheet.setColumnWidth(2, 15 * 256);
+		cellTitle = row.createCell(3);
+		cellTitle.setCellValue("兑换数量");
+		sheet.setColumnWidth(3, 15 * 256);
+		cellTitle = row.createCell(4);
+		cellTitle.setCellValue("兑换时间");
+		sheet.setColumnWidth(4, 15 * 256);
+		for(WorkTimeBoard workTimeBoard : list) {
+			row = sheet.createRow(rowSeq++); 
+			HSSFCell cell = row.createCell(0);
+			cell.setCellValue(workTimeBoard.getUserName());
+			cell = row.createCell(1); 
+			cell.setCellValue(workTimeBoard.getNickName());
+			cell = row.createCell(2);
+			cell.setCellValue(workTimeBoard.getStarId());
+			cell = row.createCell(3);
+			cell.setCellValue(workTimeBoard.getWorkTimeByMonth());
+			cell = row.createCell(4);
+			cell.setCellValue(workTimeBoard.getJudgeTimeByMonth());
+		}
+		BufferedInputStream bis = null;  
+        BufferedOutputStream bos = null;  
+		try {  
+            ByteArrayOutputStream os = new ByteArrayOutputStream();  
+            wb.write(os);  
+            byte[] content = os.toByteArray();  
+            InputStream is = new ByteArrayInputStream(content);  
+            response.reset();  
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/octet-stream");  
+            response.setHeader("Content-Disposition", "attachment;filename="+ new String((day + ".xls").getBytes(), "utf-8"));  
+            ServletOutputStream out = response.getOutputStream();  
+            bis = new BufferedInputStream(is);  
+            bos = new BufferedOutputStream(out);  
+            byte[] buff = new byte[2048];  
+            int bytesRead;  
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {  
+                bos.write(buff, 0, bytesRead);  
+            }  
+        } catch (Exception e) {  
+            log.error("=====export exception=====", e);  
+        }finally {  
+            try {  
+                if(bis != null)  
+                    bis.close();  
+                if(bos != null)  
+                    bos.close();  
+            } catch (IOException e) {  
+                log.error("=====close flow exception=====", e);  
+            }  
+        } 
+    }
+    
+    private List<WorkTimeBoard> getExchangeHistoryByUser(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
+        DateTime dt = new DateTime(date);
+        List<WorkTimeBoard> list = null;
+        if (day == null) {
+            day = 1;
+        }
+        if (day.equals(30)) {
+        	if(laborUnionId > 0) {
+        		list = workTimeBoardRepository.getExchangeHistoryByCurMonthByLid(laborUnionId, Long.valueOf(dt.toString("yyyyMM")), fuzzyQuery(searchCondition));
+        	} else {
+        		Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
+        		list = workTimeBoardRepository.getExchangeHistoryByUserCurMonth(user.get().getId(), Long.valueOf(dt.toString("yyyyMM")), fuzzyQuery(searchCondition));
+        	}
+        } else {
+            List<String> days = new ArrayList<>();
+            for (int i = 0; i <= day; i++) {
+                days.add(dt.plusDays(-i).toString("yyyy-MM-dd"));
+            }
+            if(laborUnionId > 0) {
+            	list = workTimeBoardRepository.getExchangeHistoryByUserByDayByLid(laborUnionId, days, fuzzyQuery(searchCondition));
+            } else {
+            	Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
+            	list = workTimeBoardRepository.getExchangeHistoryByUserByDay(user.get().getId(), days, fuzzyQuery(searchCondition));
+            }
         }
         ComparatorWorkTime comparatorWorkTime = new ComparatorWorkTime(pageable.getSort().toString());
         Collections.sort(list, comparatorWorkTime);

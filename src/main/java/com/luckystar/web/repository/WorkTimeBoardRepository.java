@@ -120,4 +120,34 @@ public interface WorkTimeBoardRepository  extends JpaRepository<WorkTimeBoard, L
 			+ "labor_union_user luu WHERE lu.id = ci.labor_union_id   AND ci.star_id = wi.star_id AND luu.users_id = ?1 "
 			+ "AND luu.labor_unions_id = ci.labor_union_id AND wi.task_info_id = ti.id   AND wi.cur_day IN ?2 ) wi2 ",nativeQuery = true)
 	List<WorkTimeBoard> getKpiByLaborUnionByDay(Long userId, List<String> days);
+
+	@Query(value = "SELECT * from (SELECT   eh.id,   CONCAT(ci.user_name, '/', lu.name) AS user_name,   ci.nick_name,   ci.star_id,   "
+			+ "eh.exchange_number AS worktime_by_month,   eh.deal_time AS judge_by_month,   '' AS work_time,   now() AS cur_day,   '' AS boundary_value "
+			+ "FROM   labor_union lu,   user_info ci, exchange_history eh WHERE lu.id = ci.labor_union_id   AND ci.star_id = eh.star_id   AND lu.id = ?1   "
+			+ "AND DATE_FORMAT(eh.deal_time,'%Y%m') = ?2   AND (ci.user_name LIKE ?3   OR ci.nick_name LIKE ?3   OR ci.star_id LIKE ?3   OR ci.phone_number LIKE ?3   "
+			+ "OR ci.qq LIKE ?3   OR ci.wei_chat LIKE ?3)) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getExchangeHistoryByCurMonthByLid(Long laborUnionId, Long days, String searchCondition);
+	
+	@Query(value = "SELECT * from (SELECT   eh.id,   CONCAT(ci.user_name, '/', lu.name) AS user_name,   ci.nick_name,   ci.star_id,   "
+			+ "eh.exchange_number AS worktime_by_month,   eh.deal_time AS judge_by_month,   '' AS work_time,   now() AS cur_day,   '' AS boundary_value "
+			+ "FROM   labor_union lu,   user_info ci, exchange_history eh WHERE lu.id = ci.labor_union_id   AND ci.star_id = eh.star_id   AND lu.id = ?1   "
+			+ "AND DATE_FORMAT(eh.deal_time,'%Y-%m-%d') in ?2   AND (ci.user_name LIKE ?3   OR ci.nick_name LIKE ?3   OR ci.star_id LIKE ?3   OR ci.phone_number LIKE ?3   "
+			+ "OR ci.qq LIKE ?3   OR ci.wei_chat LIKE ?3)) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getExchangeHistoryByUserByDayByLid(Long laborUnionId, List<String> days, String searchCondition);
+	
+	@Query(value = "SELECT * from (SELECT   eh.id,   CONCAT(ci.user_name, '/', lu.name) AS user_name,   ci.nick_name,   ci.star_id,   "
+			+ "eh.exchange_number AS worktime_by_month,   eh.deal_time AS judge_by_month,   '' AS work_time,   now() AS cur_day,   '' AS boundary_value "
+			+ "FROM   labor_union lu,   labor_union_user luu,   user_info ci,   exchange_history eh WHERE lu.id = ci.labor_union_id   "
+			+ "AND ci.star_id = eh.star_id   AND luu.users_id = ?1   AND luu.labor_unions_id = lu.id   AND DATE_FORMAT(eh.deal_time,'%Y%m') = ?2  "
+			+ "AND (ci.user_name LIKE ?3   OR ci.nick_name LIKE ?3   OR ci.star_id LIKE ?3   OR ci.phone_number LIKE ?3   "
+			+ "OR ci.qq LIKE ?3   OR ci.wei_chat LIKE ?3)) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getExchangeHistoryByUserCurMonth(Long userId, Long days, String searchCondition);
+	
+	@Query(value = "SELECT * from (SELECT   eh.id,   CONCAT(ci.user_name, '/', lu.name) AS user_name,   ci.nick_name,   ci.star_id,   "
+			+ "eh.exchange_number AS worktime_by_month,   eh.deal_time AS judge_by_month,   '' AS work_time,   now() AS cur_day,   '' AS boundary_value "
+			+ "FROM   labor_union lu,   labor_union_user luu,   user_info ci,   exchange_history eh WHERE lu.id = ci.labor_union_id   "
+			+ "AND ci.star_id = eh.star_id   AND luu.users_id = ?1   AND luu.labor_unions_id = lu.id   AND DATE_FORMAT(eh.deal_time,'%Y-%m-%d') in ?2 "
+			+ "AND (ci.user_name LIKE ?3   OR ci.nick_name LIKE ?3   OR ci.star_id LIKE ?3   OR ci.phone_number LIKE ?3   "
+			+ "OR ci.qq LIKE ?3   OR ci.wei_chat LIKE ?3)) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getExchangeHistoryByUserByDay(Long userId, List<String> days, String searchCondition);
 }
