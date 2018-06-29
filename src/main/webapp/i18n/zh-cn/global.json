@@ -15,7 +15,8 @@
             "advanced":{
                 "main": "高级功能",
                 "kpibyuser":"星豆详情",
-                "kpibyloaborunion":"星豆统计"
+                "kpibyloaborunion":"星豆统计",
+                "exchangehistory":"兑换历史"
             },            
             "entities": {
                 "main": "数据管理",
