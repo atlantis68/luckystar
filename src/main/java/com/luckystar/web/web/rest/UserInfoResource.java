@@ -77,8 +77,9 @@ public class UserInfoResource {
         }
         userInfo.setBeanRate(1f);
         userInfo.setTimeRate(1f);
-        userInfo.setPassword("*加密*"+RSA.encryptByPublic(userInfo.getPassword()));
+//        userInfo.setPassword("*加密*"+RSA.encryptByPublic(userInfo.getPassword()));
         userInfo.setLastMaintain(LocalDate.now());
+        userInfo.setStarId(userInfo.getStarId().trim());
         UserInfo result = userInfoRepository.save(userInfo);
         return ResponseEntity.created(new URI("/api/user-infos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -102,10 +103,11 @@ public class UserInfoResource {
         if (userInfo.getId() == null) {
             return createUserInfo(userInfo);
         }
-        if (!userInfo.getPassword().startsWith("*加密*")) {
-            userInfo.setPassword("*加密*" + RSA.encryptByPublic(userInfo.getPassword()));
-        }
+//        if (!userInfo.getPassword().startsWith("*加密*")) {
+//            userInfo.setPassword("*加密*" + RSA.encryptByPublic(userInfo.getPassword()));
+//        }
         userInfo.setLastMaintain(LocalDate.now());
+        userInfo.setStarId(userInfo.getStarId().trim());
         UserInfo result = userInfoRepository.save(userInfo);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, userInfo.getId().toString()))
