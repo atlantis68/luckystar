@@ -1,37 +1,46 @@
 package com.luckystar.web.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import com.luckystar.web.domain.LaborUnion;
-import com.luckystar.web.domain.User;
-import com.luckystar.web.domain.UserInfo;
-
-import com.luckystar.web.repository.LaborUnionRepository;
-import com.luckystar.web.repository.UserInfoRepository;
-import com.luckystar.web.repository.UserRepository;
-import com.luckystar.web.security.SecurityUtils;
-import com.luckystar.web.utils.RSA;
-import com.luckystar.web.utils.Tools;
-import com.luckystar.web.web.rest.util.HeaderUtil;
-import com.luckystar.web.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
+
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.codahale.metrics.annotation.Timed;
+import com.luckystar.web.domain.LaborUnion;
+import com.luckystar.web.domain.User;
+import com.luckystar.web.domain.UserInfo;
+import com.luckystar.web.repository.LaborUnionRepository;
+import com.luckystar.web.repository.UserInfoRepository;
+import com.luckystar.web.repository.UserRepository;
+import com.luckystar.web.security.SecurityUtils;
+import com.luckystar.web.utils.Tools;
+import com.luckystar.web.web.rest.util.HeaderUtil;
+import com.luckystar.web.web.rest.util.PaginationUtil;
+
+import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 
 /**
  * REST controller for managing UserInfo.
@@ -122,16 +131,26 @@ public class UserInfoResource {
      */
     @GetMapping("/user-infos")
     @Timed
-    public ResponseEntity<List<UserInfo>> getAllUserInfos(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<UserInfo>> getAllUserInfos(String searchCondition, @ApiParam Pageable pageable) {
         log.debug("REST request to get a page of UserInfos");
 
         Optional<User> user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
         Page<UserInfo> page = null;
         if (user.get().getLogin().equals("system")) {
-            page = userInfoRepository.findAll(pageable);
+        	if(StringUtils.isNotEmpty(searchCondition)) {
+        		List<UserInfo> results = userInfoRepository.findAllByCondition(fuzzyQuery(searchCondition));
+        		page = new PageImpl(results, pageable, results.size());
+        	} else {
+        		page = userInfoRepository.findAll(pageable);        		
+        	}
         } else {
-            Tools.humpToline(pageable);
-            page = userInfoRepository.findByUserIsCurrentUser(user.get().getId(), pageable);
+        	if(StringUtils.isNotEmpty(searchCondition)) {
+        		List<UserInfo> results = userInfoRepository.findByUserIsCurrentUser(fuzzyQuery(searchCondition), user.get().getId());
+        		page = new PageImpl(results, pageable, results.size());
+        	} else {
+        		Tools.humpToline(pageable);
+        		page = userInfoRepository.findByUserIsCurrentUser(user.get().getId(), pageable);        		
+        	}
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/user-infos");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -165,5 +184,13 @@ public class UserInfoResource {
         userInfoRepository.deleteTaskInfoById(id);
         userInfoRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    private String fuzzyQuery(String query) {
+        if (StringUtils.isEmpty(query)) {
+            return "%";
+        } else {
+            return "%" + query + "%";
+        }
     }
 }

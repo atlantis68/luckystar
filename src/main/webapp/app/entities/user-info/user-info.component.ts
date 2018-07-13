@@ -30,6 +30,8 @@ currentAccount: any;
     previousPage: any;
     reverse: any;
     maxMember: number;
+    searchCondition: any;
+    
     constructor(
         private userInfoService: UserInfoService,
         private parseLinks: JhiParseLinks,
@@ -52,7 +54,10 @@ currentAccount: any;
     }
 
     loadAll() {
+    	var query = {};
+    	query['searchCondition']=this.searchCondition;
         this.userInfoService.query({
+        	query: query, 
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()}).subscribe(
@@ -123,7 +128,11 @@ currentAccount: any;
 
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = headers.get('X-Total-Count');
+    	if(this.searchCondition) {
+	        this.totalItems = 0;
+    	} else {
+    		this.totalItems = headers.get('X-Total-Count');
+    	}
         this.queryCount = this.totalItems;
         // this.page = pagingParams.page;
         this.userInfos = data;

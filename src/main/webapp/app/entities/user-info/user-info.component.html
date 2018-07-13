@@ -2,17 +2,28 @@
     <div style="text-align: center">
     <h2>
         <span jhiTranslate="luckystarApp.userInfo.home.title">User Infos</span>
-        <button  [disabled]="totalItems>=maxMember" class="btn btn-primary float-right jh-create-entity create-user-info" [routerLink]="['/', { outlets: { popup: ['user-info-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span  [hidden]="totalItems>=maxMember" jhiTranslate="luckystarApp.userInfo.home.createLabel">
-            Create new User Info
-            </span>
-            <span [hidden]="totalItems<maxMember">最大上限{{maxMember}}人</span>
-        </button>
     </h2>
     </div>
     <jhi-alert></jhi-alert>
     <div class="row">
+
+        <div class="col-md-1 jh-form-key">
+	        <button  [disabled]="totalItems>=maxMember" class="btn btn-primary float-right jh-create-entity create-user-info" [routerLink]="['/', { outlets: { popup: ['user-info-new'] } }]">
+	            <span class="fa fa-plus"></span>
+	            <span  [hidden]="totalItems>=maxMember" jhiTranslate="luckystarApp.userInfo.home.createLabel">
+	            Create new User Info
+	            </span>
+	            <span [hidden]="totalItems<maxMember">最大上限{{maxMember}}人</span>
+	        </button>
+		</div>
+        <div class="col-md-10">
+            <input type="text" class="form-control" placeholder="输入用户名/昵称/繁星号/手机号/QQ号/微信号进行搜索"
+                   [(ngModel)]="searchCondition">
+        </div>
+
+        <div class="col-md-1">
+            <button style="float:right" class="btn btn-success" (click)="loadAll()">搜索</button>
+        </div>            
     </div>
     <br/>
     <div class="table-responsive" *ngIf="userInfos">
