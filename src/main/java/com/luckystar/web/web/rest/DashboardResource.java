@@ -894,7 +894,10 @@ public class DashboardResource {
     	log.info("{} request {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
     			"getAllByTokenToHtml", date, day, searchCondition);
 
-    	List<WorkTimeBoard> list = getAllByToken(date, day, searchCondition, pageable);
+    	List<WorkTimeBoard> list = new ArrayList<WorkTimeBoard>();
+    	if(org.apache.commons.lang3.StringUtils.isNotEmpty(searchCondition)) {
+    		list = getAllByToken(date, day, searchCondition, pageable);
+    	}
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
   
