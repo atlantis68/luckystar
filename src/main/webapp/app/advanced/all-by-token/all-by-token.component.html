@@ -1,0 +1,99 @@
+<div id="base">
+    <h2>
+        <h1 style="text-align: center">令牌查询</h1>
+    </h2>
+
+    <jhi-alert></jhi-alert>
+    <br>
+
+    <div>
+        <br>
+        <div class="row">
+            <div class="col-md-1 jh-form-key">时间:</div>
+            <div class="col-md-2" style="display: flex;">
+                <input id="field_regDate" type="text" class="form-control" name="regDate" ngbDatepicker
+                       #regDateDp="ngbDatepicker" [(ngModel)]="regDate" [minDate]="minDate" [maxDate]="maxDate"
+                       required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="regDateDp.toggle()"><i
+                        class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div class="col-md-1">
+                <select class="jh-select" [(ngModel)]="day" (change)="loadAll()">
+                    <option value="0">当天</option>
+                    <option value="1">之前1天</option>
+                    <option value="2">之前2天</option>
+                    <option value="3">之前3天</option>
+                    <option value="4">之前4天</option>
+                    <option value="5">之前5天</option>
+                    <option value="6">之前6天</option>
+                    <option value="7">之前7天</option>
+                    <option value="30">当月</option>
+                </select>
+            </div>
+            <div class="col-md-1 jh-form-key">令牌:</div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="输入令牌/Token"
+                       [(ngModel)]="searchCondition">
+            </div>
+
+            <div class="col-md-1">
+                <button style="float:right" class="btn btn-success" (click)="loadAll()">搜索</button>
+            </div>          
+        </div>
+        <!--</form>-->
+        <br/>
+        <div class="table-responsive" *ngIf="data">
+            <table class="table table-striped">        
+                <thead>
+                <tr >
+                	<th ><span>ID</span></th>
+                    <th><span>姓名</span> </span></th>
+                    <th><span>昵称</span></span></th>
+                    <th ><span>繁星ID</span> </span></th>                	
+                    <th><span>时间</span> </span></th>
+                    <th><span>星豆收入</span> </span></th>
+                    <th><span>考勤时长</span> </span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of data;trackBy: trackId;let i = index">
+                	<td>{{i + 1}}</td>
+                    <td>{{row.userName}}</td>
+                    <td>{{row.nickName}}</td>
+                    <td>{{row.starId}}</td>                	
+                    <td>{{row.curDay}}</td>
+                    <td>{{row.judgeTimeByMonth ? row.judgeTimeByMonth : 0}}</td>
+                    <td>{{(row.workTime ? row.workTime : 0) | timeFormat}}</td>
+                </tr>   
+                <tr >
+                	<th ><span>总计</span></th>
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>                     
+                    <th><span>{{allBean ? allBean : 0}}</span> </span></th>
+                    <th><span>{{(allTime ? allTime : 0) | timeFormat}}</span> </span></th>
+                </tr>                            
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .jh-form-key {
+        text-align: right;
+        line-height: 34px;
+        padding-right: 0px;
+    }
+
+    .jh-select {
+        height: 38px;
+        vertical-align: middle
+    }
+</style>
+
+<!--<p myHighlight highlightColor="yellow">Highlighted in yellow</p>-->
+<!--<p myHighlight [highlightColor]="orange">Highlighted in orange</p>-->

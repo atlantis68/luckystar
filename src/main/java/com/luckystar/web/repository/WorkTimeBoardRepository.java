@@ -150,4 +150,16 @@ public interface WorkTimeBoardRepository  extends JpaRepository<WorkTimeBoard, L
 			+ "AND (ci.user_name LIKE ?3   OR ci.nick_name LIKE ?3   OR ci.star_id LIKE ?3   OR ci.phone_number LIKE ?3   "
 			+ "OR ci.qq LIKE ?3   OR ci.wei_chat LIKE ?3)) wi2 ",nativeQuery = true)
 	List<WorkTimeBoard> getExchangeHistoryByUserByDay(Long userId, List<String> days, String searchCondition);
+	
+	
+	
+	@Query(value = "SELECT * from (SELECT wi.id, ci.user_name, ci.nick_name, ci.star_id, '' AS worktime_by_month, wi.bean_total - wi.fisrt_bean AS judge_by_month, "
+			+ "work_time, cur_day, '' AS boundary_value FROM user_info ci, task_info ti, work_info wi WHERE ti.user_info_id = ci.id AND wi.task_info_id = ti.id "
+			+ "AND wi.cur_month = ?1 AND ci.token = ?2) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getAllByTokenByCurMonth(Long days, String searchCondition);
+	
+	@Query(value = "SELECT * from (SELECT wi.id, ci.user_name, ci.nick_name, ci.star_id, '' AS worktime_by_month, wi.bean_total - wi.fisrt_bean AS judge_by_month, "
+			+ "work_time, cur_day, '' AS boundary_value FROM user_info ci, task_info ti, work_info wi WHERE ti.user_info_id = ci.id AND wi.task_info_id = ti.id "
+			+ "AND wi.cur_day IN ?1 AND ci.token = ?2) wi2 ",nativeQuery = true)
+	List<WorkTimeBoard> getAllByTokenByDays(List<String> days, String searchCondition);
 }

@@ -21,7 +21,7 @@
                 </a>
             </li>
             <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_GUEST']" class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link" routerLink="user-info-board" (click)="collapseNavbar()">
+                <a class="nav-link" routerLink="all-by-token" (click)="collapseNavbar()">
                     <i class="fa fa-home" aria-hidden="true"></i>
                     <span jhiTranslate="global.menu.token">Token</span>
                 </a>
