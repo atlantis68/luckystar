@@ -30,7 +30,8 @@
             "lastMaintain": "最后维护时间",
             "state": "状态",
             "taskInfo": "Task Info",
-            "laborUnion": "公会"
+            "laborUnion": "公会",
+            "token": "令牌"
         }
     }
 }

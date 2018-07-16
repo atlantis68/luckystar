@@ -140,6 +140,9 @@ public class UserInfo implements Serializable {
     @ApiModelProperty(value = "上次一维护cookie时间")
     @Column(name = "last_maintain")
     private LocalDate lastMaintain;
+    
+    @Column(name = "token")
+    private String token = null;
 
     /**
      * 0：停用 1：在用
@@ -384,6 +387,14 @@ public class UserInfo implements Serializable {
     public void setLaborUnion(LaborUnion laborUnion) {
         this.laborUnion = laborUnion;
     }
+    
+    public String getToken() {
+		return token;
+	}
+	
+	public void setToken(String token) {
+		this.token = token;
+	}
 
     @Override
     public boolean equals(Object o) {

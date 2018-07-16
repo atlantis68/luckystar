@@ -46,7 +46,7 @@
             <th jhiSortBy="state"><span jhiTranslate="luckystarApp.userInfo.state">State</span> <span class="fa fa-sort"></span></th>
             <!--<th jhiSortBy="laborUnion.id"><span jhiTranslate="luckystarApp.userInfo.laborUnion">Labor Union</span> <span class="fa fa-sort"></span></th>-->
                 <th ><span>所属公会</span> <span></span></th>
-                <th></th>
+                <th><span>令牌</span> <span></span></th>
             </tr>
             </thead>
             <tbody>
@@ -71,6 +71,7 @@
                         <a  >{{userInfo.laborUnion?.name}}</a>
                     </div>
                 </td>
+                <td>{{userInfo.token}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

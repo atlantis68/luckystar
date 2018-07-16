@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -89,6 +90,7 @@ public class UserInfoResource {
 //        userInfo.setPassword("*加密*"+RSA.encryptByPublic(userInfo.getPassword()));
         userInfo.setLastMaintain(LocalDate.now());
         userInfo.setStarId(userInfo.getStarId().trim());
+        userInfo.setToken(UUID.randomUUID().toString().replace("-", ""));
         UserInfo result = userInfoRepository.save(userInfo);
         return ResponseEntity.created(new URI("/api/user-infos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

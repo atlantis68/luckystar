@@ -20,9 +20,15 @@
                     <span jhiTranslate="global.menu.home">Home</span>
                 </a>
             </li>
+            <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_GUEST']" class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="user-info-board" (click)="collapseNavbar()">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <span jhiTranslate="global.menu.token">Token</span>
+                </a>
+            </li>            
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
 
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU1']" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <i class="fa fa-th-list" aria-hidden="true"></i>
@@ -60,7 +66,7 @@
                 </ul>
             </li>
             
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU2']" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="advanced-menu">
                     <span>
                         <i class="fa fa-th-list" aria-hidden="true"></i>
@@ -92,7 +98,7 @@
                 </ul>
             </li>            
 
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MENU3']" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="dashboard-menu">
                     <span>
                         <i class="fa fa-th-list" aria-hidden="true"></i>
@@ -219,7 +225,7 @@
                             <span jhiTranslate="global.menu.account.settings">Settings</span>
                         </a>
                     </li> -->
-                    <li *ngSwitchCase="true">
+                    <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_PASSWORD']">
                         <a class="dropdown-item" routerLink="password" routerLinkActive="active" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-clock-o" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.account.password">Password</span>

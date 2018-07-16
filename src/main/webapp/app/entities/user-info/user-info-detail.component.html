@@ -55,7 +55,11 @@
         	<span jhiTranslate="luckystarApp.userInfo.beanRate">Bean Rate</span></dt>
         <dd *jhiHasAnyAuthority="['ROLE_ADMIN']">
             <span>{{userInfo.beanRate}}</span>
-        </dd>
+        </dd>        
+        <dt><span jhiTranslate="luckystarApp.userInfo.token">Token</span></dt>
+        <dd>
+            <span>{{userInfo.token}}</span>
+        </dd>        
         <dt><span jhiTranslate="luckystarApp.userInfo.state">State</span></dt>
         <dd>
             <span jhiTranslate="{{'luckystarApp.State.' + userInfo.state}}">{{userInfo.state}}</span>
