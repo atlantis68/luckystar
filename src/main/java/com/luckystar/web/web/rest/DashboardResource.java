@@ -774,10 +774,7 @@ public class DashboardResource {
         Collections.sort(list, comparatorWorkTime);
         return list;
     }
-    
 
-
-    
     @GetMapping("/exchange-history")
     @Timed
     public ResponseEntity<List<WorkTimeBoard>> getExchangeHistoryToHtml(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
@@ -890,6 +887,37 @@ public class DashboardResource {
         Collections.sort(list, comparatorWorkTime);
         return list;
     }
+
+    @GetMapping("/all-by-token")
+    @Timed
+    public ResponseEntity<List<WorkTimeBoard>> getAllByTokenToHtml(String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
+    	log.info("{} request {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
+    			"getAllByTokenToHtml", date, day, searchCondition);
+
+    	List<WorkTimeBoard> list = getAllByToken(date, day, searchCondition, pageable);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+  
+    private List<WorkTimeBoard> getAllByToken(String date, Integer day, String token, @ApiParam Pageable pageable) {
+        DateTime dt = new DateTime(date);
+        List<WorkTimeBoard> list = null;
+        if (day == null) {
+            day = 1;
+        }
+        if (day.equals(30)) {
+        	list = workTimeBoardRepository.getAllByTokenByCurMonth(Long.valueOf(dt.toString("yyyyMM")), token);
+        } else {
+            List<String> days = new ArrayList<>();
+            for (int i = 0; i <= day; i++) {
+                days.add(dt.plusDays(-i).toString("yyyy-MM-dd"));
+            }
+            list = workTimeBoardRepository.getAllByTokenByDays(days, token);
+        }
+        ComparatorWorkTime comparatorWorkTime = new ComparatorWorkTime("id");
+        Collections.sort(list, comparatorWorkTime);
+        return list;
+    }
+    
 
     @GetMapping("/recent-time")
     @Timed
