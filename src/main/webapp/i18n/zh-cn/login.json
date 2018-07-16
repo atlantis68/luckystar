@@ -5,7 +5,8 @@
             "password": "密码",
             "password.placeholder": "您的密码",
             "rememberme": "自动登录",
-            "button": "登录"
+            "button1": "登录",
+            "button2": "匿名登录"
         },
         "messages": {
             "error": {
