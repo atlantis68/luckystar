@@ -91,7 +91,6 @@ export class AllByTokenComponent implements OnInit, OnDestroy {
         minDate.month -= 3;
         this.minDate = minDate;
 
-		this.loadAll();
 
     }
 
