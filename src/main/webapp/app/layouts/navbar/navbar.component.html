@@ -10,7 +10,7 @@
     </div>
 
 
-            <p style="    text-align: end;position: absolute;width: 50%;color: white" >业务咨询&技术支持联系QQ号：346411799，微信号：duheng8096</p>
+            <p style="    text-align: end;position: absolute;width: 50%;color: yellow" >业务咨询&技术支持联系QQ号：346411799，微信号：duheng8096</p>
 
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
@@ -22,7 +22,7 @@
             </li>
             <li *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_GUEST']" class="nav-item"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link" routerLink="all-by-token" (click)="collapseNavbar()">
-                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                     <span jhiTranslate="global.menu.token">Token</span>
                 </a>
             </li>            
