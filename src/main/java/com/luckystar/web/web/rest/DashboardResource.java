@@ -71,9 +71,10 @@ public class DashboardResource {
 
     @GetMapping("/chicken-infos-board")
     @Timed
-    public ResponseEntity<List<UserInfoBoard>> getAllChickenInfosBoardToHtml(Long laborUnionId, String day, String searchCondition, @ApiParam Pageable pageable) {
-    	log.info("{} request {}, laborUnionId = {}, day = {}, searchCondition = {}", 
-    			SecurityUtils.getCurrentUserLogin(), "getAllChickenInfosBoardToHtml", laborUnionId, day, searchCondition);
+    public ResponseEntity<List<UserInfoBoard>> getAllChickenInfosBoardToHtml(Long laborUnionId, String day, 
+    		String searchCondition, @ApiParam Pageable pageable) {
+    	log.info("{} request {}, laborUnionId = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getAllChickenInfosBoardToHtml", laborUnionId, day, searchCondition, pageable);
     	
     	List<UserInfoBoard> list = getAllChickenInfosBoard(laborUnionId, day, searchCondition, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -83,8 +84,9 @@ public class DashboardResource {
     @Timed
     public void getAllChickenInfosBoardToExcel(Long laborUnionId, String day, String searchCondition, 
     		@ApiParam Pageable pageable, HttpServletRequest request, HttpServletResponse response) {
-    	log.info("{} request {}, laborUnionId = {}, day = {}, searchCondition = {}", 
-    			SecurityUtils.getCurrentUserLogin(), "getAllChickenInfosBoardToExcel", laborUnionId, day, searchCondition);
+    	log.info("{} request {}, laborUnionId = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getAllChickenInfosBoardToExcel", 
+    			laborUnionId, day, searchCondition, pageable);
     	
     	List<UserInfoBoard> list = getAllChickenInfosBoard(laborUnionId, day, searchCondition, pageable);
 		int rowSeq = 0;
@@ -202,7 +204,8 @@ public class DashboardResource {
         }  
     }
 
-    private List<UserInfoBoard> getAllChickenInfosBoard(Long laborUnionId, String day, String searchCondition, @ApiParam Pageable pageable) {
+    private List<UserInfoBoard> getAllChickenInfosBoard(Long laborUnionId, String day, 
+    		String searchCondition, @ApiParam Pageable pageable) {
         List<UserInfoBoard> list = null;
         if(laborUnionId > 0) {
         	list = userInfoBoardRepository.getAllChickenInfosBoardByLid(laborUnionId, day, fuzzyQuery(searchCondition));
@@ -225,9 +228,11 @@ public class DashboardResource {
 
     @GetMapping("/work-time-board")
     @Timed
-    public ResponseEntity<List<WorkTimeBoard>> getWorkTimeBoardToHtml(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
-    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getWorkTimeBoardToHtml", laborUnionId, date, day, searchCondition);
+    public ResponseEntity<List<WorkTimeBoard>> getWorkTimeBoardToHtml(Long laborUnionId,String date, 
+    		Integer day, String searchCondition, @ApiParam Pageable pageable) {
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getWorkTimeBoardToHtml", 
+    			laborUnionId, date, day, searchCondition, pageable);
 
     	List<WorkTimeBoard> list = getWorkTimeBoard(laborUnionId, date, day, searchCondition, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -237,8 +242,9 @@ public class DashboardResource {
     @Timed
     public void getWorkTimeBoardToExcel(Long laborUnionId,String date, Integer day, String searchCondition, 
     		@ApiParam Pageable pageable, HttpServletRequest request, HttpServletResponse response) {
-    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getWorkTimeBoardToExcel", laborUnionId, date, day, searchCondition);
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getWorkTimeBoardToExcel", 
+    			laborUnionId, date, day, searchCondition, pageable);
     	
     	List<WorkTimeBoard> list = getWorkTimeBoard(laborUnionId, date, day, searchCondition, pageable);  	
     	Table<Long, LocalDate, WorkTimeBoard> table = HashBasedTable.create();
@@ -377,7 +383,8 @@ public class DashboardResource {
         } 
     }
     
-    private List<WorkTimeBoard> getWorkTimeBoard(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
+    private List<WorkTimeBoard> getWorkTimeBoard(Long laborUnionId,String date, Integer day, 
+    		String searchCondition, @ApiParam Pageable pageable) {
         DateTime dt = new DateTime(date);
         List<WorkTimeBoard> list = null;
         if (day == null) {
@@ -409,9 +416,11 @@ public class DashboardResource {
     
     @GetMapping("/kpi-by-user")
     @Timed
-    public ResponseEntity<List<WorkTimeBoard>> getKpiByUserToHtml(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
-    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getKpiByUserToHtml", laborUnionId, date, day, searchCondition);
+    public ResponseEntity<List<WorkTimeBoard>> getKpiByUserToHtml(Long laborUnionId,String date, Integer day, 
+    		String searchCondition, @ApiParam Pageable pageable) {
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getKpiByUserToHtml", 
+    			laborUnionId, date, day, searchCondition, pageable);
 
     	List<WorkTimeBoard> list = getKpiByUser(laborUnionId, date, day, searchCondition, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -421,8 +430,9 @@ public class DashboardResource {
     @Timed
     public void getKpiByUserToExcel(Long laborUnionId,String date, Integer day, String searchCondition, 
     		@ApiParam Pageable pageable, HttpServletRequest request, HttpServletResponse response) {
-    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getKpiByUserToExcel", laborUnionId, date, day, searchCondition);
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getKpiByUserToExcel", 
+    			laborUnionId, date, day, searchCondition, pageable);
     	
     	List<WorkTimeBoard> list = getKpiByUser(laborUnionId, date, day, searchCondition, pageable);
     	Table<Long, LocalDate, WorkTimeBoard> table = HashBasedTable.create();
@@ -580,9 +590,11 @@ public class DashboardResource {
 
     @GetMapping("/kpi-by-laborunion")
     @Timed
-    public ResponseEntity<List<WorkTimeBoard>> getKpiByLaborUnionToHtml(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
-    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getKpiByLaborUnionToHtml", laborUnionId, date, day, searchCondition);
+    public ResponseEntity<List<WorkTimeBoard>> getKpiByLaborUnionToHtml(Long laborUnionId,String date, 
+    		Integer day, String searchCondition, @ApiParam Pageable pageable) {
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getKpiByLaborUnionToHtml", 
+    			laborUnionId, date, day, searchCondition, pageable);
 
     	List<WorkTimeBoard> list = getKpiByLaborUnion(laborUnionId, date, day, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -592,8 +604,9 @@ public class DashboardResource {
     @Timed
     public void getKpiByLaborUnionToExcel(Long laborUnionId,String date, Integer day, String searchCondition, 
     		@ApiParam Pageable pageable, HttpServletRequest request, HttpServletResponse response) {
-    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getKpiByLaborUnionToExcel", laborUnionId, date, day, searchCondition);
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getKpiByLaborUnionToExcel", 
+    			laborUnionId, date, day, searchCondition, pageable);
     	
     	List<WorkTimeBoard> list = getKpiByLaborUnion(laborUnionId, date, day, pageable);
     	Table<Long, LocalDate, WorkTimeBoard> table = HashBasedTable.create();
@@ -777,9 +790,11 @@ public class DashboardResource {
 
     @GetMapping("/exchange-history")
     @Timed
-    public ResponseEntity<List<WorkTimeBoard>> getExchangeHistoryToHtml(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
-    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getExchangeHistoryToHtml", laborUnionId, date, day, searchCondition);
+    public ResponseEntity<List<WorkTimeBoard>> getExchangeHistoryToHtml(Long laborUnionId,String date, 
+    		Integer day, String searchCondition, @ApiParam Pageable pageable) {
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getExchangeHistoryToHtml", 
+    			laborUnionId, date, day, searchCondition, pageable);
 
     	List<WorkTimeBoard> list = getExchangeHistoryByUser(laborUnionId, date, day, searchCondition, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -789,8 +804,9 @@ public class DashboardResource {
     @Timed
     public void getExchangeHistoryToExcel(Long laborUnionId,String date, Integer day, String searchCondition, 
     		@ApiParam Pageable pageable, HttpServletRequest request, HttpServletResponse response) {
-    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getExchangeHistoryToExcel", laborUnionId, date, day, searchCondition);
+    	log.info("{} request {}, laborUnionId = {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getExchangeHistoryToExcel", 
+    			laborUnionId, date, day, searchCondition, pageable);
     	
     	List<WorkTimeBoard> list = getExchangeHistoryByUser(laborUnionId, date, day, searchCondition, pageable);
     	int rowSeq = 0;
@@ -858,7 +874,8 @@ public class DashboardResource {
         } 
     }
     
-    private List<WorkTimeBoard> getExchangeHistoryByUser(Long laborUnionId,String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
+    private List<WorkTimeBoard> getExchangeHistoryByUser(Long laborUnionId,String date, Integer day, 
+    		String searchCondition, @ApiParam Pageable pageable) {
         DateTime dt = new DateTime(date);
         List<WorkTimeBoard> list = null;
         if (day == null) {
@@ -891,8 +908,8 @@ public class DashboardResource {
     @GetMapping("/all-by-token")
     @Timed
     public ResponseEntity<List<WorkTimeBoard>> getAllByTokenToHtml(String date, Integer day, String searchCondition, @ApiParam Pageable pageable) {
-    	log.info("{} request {}, date = {}, day = {}, searchCondition = {}", SecurityUtils.getCurrentUserLogin(), 
-    			"getAllByTokenToHtml", date, day, searchCondition);
+    	log.info("{} request {}, date = {}, day = {}, searchCondition = {}, pageable = {}", 
+    			SecurityUtils.getCurrentUserLogin(), "getAllByTokenToHtml", date, day, searchCondition, pageable);
 
     	List<WorkTimeBoard> list = new ArrayList<WorkTimeBoard>();
     	if(org.apache.commons.lang3.StringUtils.isNotEmpty(searchCondition)) {
