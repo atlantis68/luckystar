@@ -4,23 +4,23 @@
         "browsehappy": "您目前使用<strong>过于老旧</strong>的浏览器, 建议您<a href=\"http://browsehappy.com/?locale=en\">升级浏览器</a>让您有更佳的上网体验.",
         "menu": {
             "home": "首页",
-            "token": "令牌查询",
+            "token": "令牌",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "dashboard":{
-                "main": "基础功能",
+                "main": "查询",
                 "kpi":"业绩排行",
-                "attendance":"考勤详情",
                 "exchange":"星豆兑换",
+                "exchangehistory":"兑换历史"                
                 "monitor":"实时监控"
             },
             "advanced":{
-                "main": "高级功能",
+                "main": "统计",
+                "attendance":"考勤详情",                
                 "kpibyuser":"星豆详情",
-                "kpibyloaborunion":"星豆统计",
-                "exchangehistory":"兑换历史"
+                "kpibyloaborunion":"星豆统计"
             },            
             "entities": {
-                "main": "数据管理",
+                "main": "数据",
                 "laborUnion": "公会管理",
                 "taskInfo": "任务管理",
                 "workInfo": "工作管理",
