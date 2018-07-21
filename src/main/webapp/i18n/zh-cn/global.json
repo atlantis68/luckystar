@@ -10,7 +10,7 @@
                 "main": "查询",
                 "kpi":"业绩排行",
                 "exchange":"星豆兑换",
-                "exchangehistory":"兑换历史"                
+                "exchangehistory":"兑换历史",            
                 "monitor":"实时监控"
             },
             "advanced":{
